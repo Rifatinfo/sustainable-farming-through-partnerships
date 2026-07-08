@@ -5,13 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import util.UserSession;
 
 import java.io.IOException;
+import java.util.Stack;
 
 public class SceneManager {
 
     private static SceneManager instance;
     private Stage primaryStage;
+    private final Stack<Route> history = new Stack<>();
+    private Route currentRoute;
 
     private SceneManager() {}
 
@@ -26,12 +30,42 @@ public class SceneManager {
         this.primaryStage = stage;
     }
 
-    public void switchScene(String fxmlPath) {
-        switchScene(fxmlPath, null);
+    public void navigateTo(Route route) {
+        if (currentRoute != null) {
+            history.push(currentRoute);
+        }
+        switchScene(route);
     }
 
-    public void switchScene(String fxmlPath, String title) {
+    public void navigateToLogout() {
+        history.clear();
+        currentRoute = null;
+        UserSession.logout();
+        switchScene(Route.LOGIN);
+    }
+
+    public void goBack() {
+        if (!history.isEmpty()) {
+            currentRoute = history.pop();
+            switchScene(currentRoute);
+        }
+    }
+
+    public boolean canGoBack() {
+        return !history.isEmpty();
+    }
+
+    public void clearHistory() {
+        history.clear();
+    }
+
+    public Route getCurrentRoute() {
+        return currentRoute;
+    }
+
+    private void switchScene(Route route) {
         try {
+            String fxmlPath = route.getFxmlPath();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
@@ -42,11 +76,8 @@ public class SceneManager {
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-
-            if (title != null) {
-                primaryStage.setTitle(title);
-            }
-
+            primaryStage.setTitle(route.getTitle());
+            currentRoute = route;
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

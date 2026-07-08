@@ -1,7 +1,7 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
 import util.FileUtil;
-import util.NavigationManager;
+import util.Route;
 import util.SceneManager;
 
 public class Main extends Application {
@@ -10,7 +10,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         FileUtil.ensureDataFilesExist();
         SceneManager.getInstance().initialize(primaryStage);
-        NavigationManager.getInstance().navigate("/view/dashboard.fxml");
+        SceneManager.getInstance().navigateTo(Route.LOGIN);
     }
 
     public static void main(String[] args) {

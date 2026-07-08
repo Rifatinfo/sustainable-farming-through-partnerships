@@ -5,8 +5,8 @@ import java.util.Stack;
 public class NavigationManager {
 
     private static NavigationManager instance;
-    private final Stack<String> history = new Stack<>();
-    private String currentRoute;
+    private final Stack<Route> history = new Stack<>();
+    private Route currentRoute;
 
     private NavigationManager() {}
 
@@ -17,18 +17,18 @@ public class NavigationManager {
         return instance;
     }
 
-    public void navigate(String route) {
+    public void navigate(Route route) {
         if (currentRoute != null) {
             history.push(currentRoute);
         }
         currentRoute = route;
-        SceneManager.getInstance().switchScene(route);
+        SceneManager.getInstance().navigateTo(route);
     }
 
     public void goBack() {
         if (!history.isEmpty()) {
             currentRoute = history.pop();
-            SceneManager.getInstance().switchScene(currentRoute);
+            SceneManager.getInstance().navigateTo(currentRoute);
         }
     }
 
@@ -36,7 +36,7 @@ public class NavigationManager {
         return !history.isEmpty();
     }
 
-    public String getCurrentRoute() {
+    public Route getCurrentRoute() {
         return currentRoute;
     }
 

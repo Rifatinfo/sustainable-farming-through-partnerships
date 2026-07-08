@@ -2,7 +2,7 @@ package controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import util.NavigationManager;
+import util.Route;
 import util.SceneManager;
 
 import java.util.Optional;
@@ -10,11 +10,9 @@ import java.util.Optional;
 public abstract class BaseController {
 
     protected SceneManager sceneManager;
-    protected NavigationManager navigationManager;
 
     public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
-        this.navigationManager = NavigationManager.getInstance();
     }
 
     protected void showError(String title, String message) {
@@ -42,15 +40,15 @@ public abstract class BaseController {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    protected void navigateTo(String fxmlPath) {
-        navigationManager.navigate(fxmlPath);
+    protected void navigateTo(Route route) {
+        sceneManager.navigateTo(route);
     }
 
     protected void goBack() {
-        navigationManager.goBack();
+        sceneManager.goBack();
     }
 
     protected boolean canGoBack() {
-        return navigationManager.canGoBack();
+        return sceneManager.canGoBack();
     }
 }
