@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InvestorDashboardController" stylesheets="@investor_dashboard.css">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-header" spacing="2">
+                <Label styleClass="logo-text" text="&#127793; FarmConnect" />
+                <Label styleClass="role-label" text="Investor Portal" />
+            </VBox>
+            <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
+            <Button styleClass="nav-btn" fx:id="navBrowse" text="&#128269;  Browse Projects" onAction="#showBrowseProjects" />
+            <Button styleClass="nav-btn" fx:id="navInvestments" text="&#128179;  My Investments" onAction="#showMyInvestments" />
+            <Button styleClass="nav-btn" fx:id="navPortfolio" text="&#128202;  Portfolio" onAction="#showPortfolio" />
+            <Button styleClass="nav-btn" fx:id="navProfitHistory" text="&#128200;  Profit History" onAction="#showProfitHistory" />
+            <Button styleClass="nav-btn" fx:id="navNotifications" text="&#128276;  Notifications" onAction="#showNotifications" />
+            <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button styleClass="nav-btn-logout" text="&#128682;  Logout" onAction="#onLogout" />
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <StackPane fx:id="contentStack">
+
+                <!-- ===== DASHBOARD ===== -->
+                <VBox fx:id="dashboardPanel" styleClass="content-area">
+                    <Label styleClass="section-title" text="Investor Dashboard" />
+                    <Label styleClass="section-subtitle" text="Overview of your investment portfolio" />
+                    <FlowPane fx:id="dashStatCards" hgap="16" vgap="16" />
+                    <HBox spacing="24">
+                        <VBox styleClass="activity-card" spacing="10" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Recent Activity" />
+                            <VBox fx:id="dashActivityFeed" spacing="4" />
+                        </VBox>
+                        <VBox styleClass="activity-card" spacing="10" minWidth="280">
+                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Portfolio Snapshot" />
+                            <Label fx:id="dashWalletLabel" style="-fx-font-size:14;" text="Wallet Balance: $0.00" />
+                            <Label fx:id="dashInvestedLabel" style="-fx-font-size:14;" text="Total Invested: $0.00" />
+                            <Label fx:id="dashProfitLabel" style="-fx-font-size:14;" text="Expected Profit: $0.00" />
+                            <Label fx:id="dashProjectsLabel" style="-fx-font-size:14;" text="Active Projects: 0" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- ===== BROWSE PROJECTS ===== -->
+                <VBox fx:id="browseProjectsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Browse Projects" />
+                    <Label styleClass="section-subtitle" text="Approved farming projects ready for investment" />
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                        <FlowPane fx:id="projectCardsContainer" hgap="20" vgap="20" />
+                    </ScrollPane>
+                </VBox>
+
+                <!-- ===== PROJECT DETAILS ===== -->
+                <VBox fx:id="projectDetailsPanel" styleClass="content-area" spacing="20" visible="false" managed="false">
+                    <Button styleClass="back-btn" fx:id="detailsBackBtn" text="&#8592;  Back to Browse" onAction="#onBackToBrowse" />
+                    <VBox styleClass="detail-card" spacing="16">
+                        <Label fx:id="pdTitle" style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#1a237e;" />
+                        <Label fx:id="pdDescription" wrapText="true" style="-fx-font-size:13; -fx-text-fill:#555;" />
+                        <Separator />
+                        <HBox spacing="40">
+                            <VBox spacing="6">
+                                <Label styleClass="detail-label" text="Farmer" />
+                                <Label fx:id="pdFarmer" styleClass="detail-value" />
+                                <Label styleClass="detail-label" text="Location" />
+                                <Label fx:id="pdLocation" styleClass="detail-value" />
+                            </VBox>
+                            <VBox spacing="6">
+                                <Label styleClass="detail-label" text="Start Date" />
+                                <Label fx:id="pdStartDate" styleClass="detail-value" />
+                                <Label styleClass="detail-label" text="End Date" />
+                                <Label fx:id="pdEndDate" styleClass="detail-value" />
+                            </VBox>
+                            <VBox spacing="6">
+                                <Label styleClass="detail-label" text="Risk Level" />
+                                <Label fx:id="pdRiskBadge" styleClass="status-badge" />
+                                <Label styleClass="detail-label" text="Budget Limit" />
+                                <Label fx:id="pdBudget" styleClass="detail-value" />
+                            </VBox>
+                        </HBox>
+                        <Separator />
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Funding Progress" />
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label style="-fx-font-size:14; -fx-font-weight:600;" fx:id="pdFundingLabel" text="$0 / $0" />
+                            <Label style="-fx-font-size:12; -fx-text-fill:#888;" fx:id="pdFundingPct" text="(0%)" />
+                        </HBox>
+                        <VBox spacing="4" maxWidth="500">
+                            <Region styleClass="funding-bar-bg">
+                                <Region fx:id="pdFundingBar" styleClass="funding-bar-fill" minWidth="0" />
+                            </Region>
+                        </VBox>
+                        <Separator />
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Make an Investment" />
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label styleClass="form-label" text="Amount ($)" />
+                            <TextField fx:id="pdInvestAmount" styleClass="input-field" promptText="Enter amount" maxWidth="200" />
+                            <Button styleClass="btn-invest" text="Invest Now" onAction="#onInvestProject" />
+                        </HBox>
+                        <Label fx:id="pdInvestError" styleClass="error-label" managed="false" />
+                        <Label fx:id="pdInvestSuccess" styleClass="success-label" managed="false" />
+                    </VBox>
+                </VBox>
+
+                <!-- ===== MY INVESTMENTS ===== -->
+                <VBox fx:id="myInvestmentsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="My Investments" />
+                    <Label styleClass="section-subtitle" text="All your current and past investments" />
+                    <TableView fx:id="investmentsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Project" fx:id="invProjCol" prefWidth="180" />
+                            <TableColumn text="Amount" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Date" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="investmentDate" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Status" fx:id="invStatusCol" prefWidth="100" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== PORTFOLIO ===== -->
+                <VBox fx:id="portfolioPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Portfolio" />
+                    <Label styleClass="section-subtitle" text="Your investment portfolio overview" />
+                    <FlowPane fx:id="portStatCards" hgap="16" vgap="16" />
+                    <HBox spacing="20">
+                        <VBox styleClass="chart-container" spacing="10" HBox.hgrow="ALWAYS">
+                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Investment Distribution" />
+                            <PieChart fx:id="portfolioChart" animated="true" legendVisible="true" labelsVisible="true" />
+                        </VBox>
+                        <VBox styleClass="chart-container" spacing="10" minWidth="300">
+                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Summary" />
+                            <Label fx:id="portTotalInvested" style="-fx-font-size:16;" text="Total Invested: $0.00" />
+                            <Label fx:id="portExpectedProfit" style="-fx-font-size:16;" text="Expected Profit: $0.00" />
+                            <Label fx:id="portActualProfit" style="-fx-font-size:16;" text="Actual Profit: $0.00" />
+                            <Label fx:id="portNetReturn" style="-fx-font-size:16;" text="Net Return: $0.00" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- ===== PROFIT HISTORY ===== -->
+                <VBox fx:id="profitHistoryPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Profit History" />
+                    <Label styleClass="section-subtitle" text="Track your profits over time" />
+                    <VBox styleClass="chart-container" spacing="10">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Profit Over Time" />
+                        <LineChart fx:id="profitChart" animated="false" prefHeight="300">
+                            <xAxis>
+                                <CategoryAxis label="Date" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Profit ($)" side="LEFT" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+                    <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Completed Investments" />
+                    <TableView fx:id="profitTable" VBox.vgrow="ALWAYS" prefHeight="200">
+                        <columns>
+                            <TableColumn text="Project" fx:id="profProjCol" prefWidth="160" />
+                            <TableColumn text="Amount" prefWidth="100">
+                                <cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Expected Profit" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="expectedProfit" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Actual Profit" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="actualProfit" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Date" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="investmentDate" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Status" fx:id="profStatusCol" prefWidth="100" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== NOTIFICATIONS ===== -->
+                <VBox fx:id="notificationsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Notifications" />
+                    <Label styleClass="section-subtitle" text="Investment updates and system messages" />
+                    <TableView fx:id="investorNotifTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Date" prefWidth="120">
+                                <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Type" prefWidth="100">
+                                <cellValueFactory><PropertyValueFactory property="type" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Message" prefWidth="400">
+                                <cellValueFactory><PropertyValueFactory property="message" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Read" fx:id="investorNotifReadCol" prefWidth="80" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== SETTINGS ===== -->
+                <VBox fx:id="settingsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Settings" />
+                    <VBox styleClass="form-panel" spacing="14">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="My Profile" />
+                        <Label styleClass="form-label" text="Name" />
+                        <TextField fx:id="settingsNameField" styleClass="input-field" />
+                        <Label styleClass="form-label" text="Email" />
+                        <TextField fx:id="settingsEmailField" styleClass="input-field" />
+                        <Label styleClass="form-label" text="New Password (leave blank to keep current)" />
+                        <PasswordField fx:id="settingsPassField" styleClass="input-field" />
+                        <Label styleClass="form-label" text="Wallet Balance" />
+                        <TextField fx:id="settingsWalletField" styleClass="input-field" />
+                        <Button styleClass="btn-primary" text="Save Changes" onAction="#onSaveSettings" maxWidth="200" />
+                        <Label fx:id="settingsMsg" styleClass="success-label" managed="false" />
+                    </VBox>
+                </VBox>
+
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

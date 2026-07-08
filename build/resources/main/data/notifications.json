@@ -1,0 +1,497 @@
+[
+  {
+    "id": "412b0a51-99eb-4ce7-96ef-0eb51fedc1e9",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Your monitor account has been verified. You can now create farmers and projects.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "b23a0954-9a21-4a7b-b847-2e6c08b46c84",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Your monitor account has been verified.",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "5b5b5c8d-7cc2-43f3-b788-dc16dc3dd881",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Your monitor account has been verified. You can now create farmers and projects.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "5aab0a0a-5909-499a-85d1-27d7c8570065",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": true,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "b74dd4e0-7eaf-4da7-8498-e758c9967a9e",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "e7053416-cc82-4d69-be20-1f8f2216b736",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "c7dbe5e0-f296-42af-b7cd-570205bfc43a",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "ce5f06eb-b195-467e-9779-865aa5ed8b0b",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "56052840-cee6-4e85-893a-43c13f224292",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "4caf5162-e92e-4d4c-9c25-878aa23a010f",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "d53e6b49-4670-49b9-ba1a-391b3253e197",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "36614f31-36d4-4e77-bc2e-084f4619f379",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "e63e1f69-0dfa-49bc-824b-095ccf7d0507",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "e7501321-e236-4067-91cc-5bea2f2b1a66",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "f63516c4-b6ba-4169-9813-647a9715adee",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "043f74fe-4efc-403b-98c6-0b0d1cb88aed",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "1712d6df-d57d-4269-b056-84059d8660e0",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "c77fb32a-2752-4a79-a48b-74e37855ebd9",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "4908e36b-576a-4864-b274-95261f6d7ee3",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "14fa2639-2eab-404d-a63c-7281761709ce",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "493a856e-983f-4ce4-853d-c7fd528b9656",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "337b5b79-1691-4424-b150-98adf9bfb43c",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "46288808-094f-4b55-ac4d-215560078216",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Your monitor account has been verified.",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "85ea6312-199a-401f-84ca-829284a608d7",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Your monitor account has been verified. You can now create farmers and projects.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "ea3a9caf-ca28-472e-9cf7-9cba5d6b3554",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "c98eb76c-10d9-493a-b373-b6caa0bda521",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "5f0cc408-1be2-4a11-b1f3-1e5d4767a6c9",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "f1efe52a-cf1c-4889-92b6-5daf1d2ef12b",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "8013ad3d-b8ea-4b2f-a1a5-81ae5a4038fb",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "3abdb389-b895-41e0-9a70-0bdac8cc7b39",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "d0763240-204a-43a6-8b21-5c6877c42f46",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "b62be2e8-d033-47ad-b07a-6a18c0b5e46b",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "d862ff62-c702-4cec-8a9f-968b2ba01e29",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "ed02daec-e765-41c4-ad48-927cd68833e0",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "b67abd17-6922-453d-8e42-a99cb7de0cb2",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "4e7518fa-a552-4c89-a387-ed4b38695673",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "63ed2bcc-6ad0-4ce6-a291-3f588635c8e6",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "ff340546-c529-4979-bd81-d9380eb65ff6",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "6b4134f0-0a41-42ab-81b4-8595e518e6ef",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "e3a9d9a3-5515-410d-bc74-865b79ac69d2",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "e867ecef-21cc-4ee6-a6c5-e79bfa8fa22e",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "a40bb583-e437-4828-b74d-96df9efb517c",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "5c39f99c-dbf0-48c9-b2dc-75a75d0d2b63",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "8c7f2891-d3fd-4111-acf4-3e575dc6ed19",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "bd6468ab-d76b-44e0-813f-657c5fa8f6d4",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "35bc4fda-ec16-4a06-9368-12194c6dda6b",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "c71c7899-bafe-4e2d-b48c-bb0097894657",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "27a43d15-779c-467a-99e2-02d44b080eae",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "0b013191-1542-4373-9772-2d142b49eef6",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "cee50e65-1ee1-492b-b5d1-cb81ff7d9271",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "b0c94cd5-5e98-45e8-bd79-2d4ff35fa14c",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "5a84fbdf-7c43-47e1-8016-27295ea3a80f",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "7577290b-75fb-4100-9ed7-b6cebc2abd5a",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "c2e17af6-6ece-4cef-8362-837af1b940f1",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "9aa103b7-2d03-412c-a412-acd58170a44c",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Farmer profile \u0027farmer\u0027 has been verified.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-08"
+  }
+]

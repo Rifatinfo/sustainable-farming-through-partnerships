@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fx:id="scrollPane" fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController" stylesheets="@home.css">
+    <VBox>
+        <!-- Header -->
+        <HBox styleClass="header" spacing="8">
+            <Label styleClass="logo-text" text="&#127793; FarmConnect" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button styleClass="nav-link" text="Home" onAction="#onHome" />
+            <Button styleClass="nav-link" text="Projects" onAction="#onProjects" />
+            <Button styleClass="nav-link" text="How It Works" onAction="#onHowItWorks" />
+            <Button styleClass="nav-link" text="About" onAction="#onAbout" />
+            <Button styleClass="nav-link" text="Contact" onAction="#onContact" />
+            <Region prefWidth="20" />
+            <Button styleClass="btn-login" text="Login" onAction="#onLogin" />
+            <Button styleClass="btn-register" text="Register" onAction="#onRegister" />
+        </HBox>
+
+        <!-- Hero -->
+        <VBox styleClass="hero" alignment="CENTER" spacing="16">
+            <Label styleClass="title" text="Invest in Sustainable Farming" wrapText="true" textAlignment="CENTER" />
+            <Label styleClass="subtitle" text="Empower local farmers, grow your wealth, and nurture the planet — one crop at a time." wrapText="true" textAlignment="CENTER" maxWidth="600" />
+            <HBox alignment="CENTER" spacing="16" padding="20 0 0 0">
+                <Button styleClass="btn-primary" text="Explore Projects" onAction="#onExploreProjects" />
+                <Button styleClass="btn-secondary" text="Become an Investor" onAction="#onRegister" />
+            </HBox>
+        </VBox>
+
+        <!-- Statistics -->
+        <HBox styleClass="stats-bar" alignment="CENTER" spacing="60">
+            <VBox alignment="CENTER" spacing="4">
+                <Label styleClass="stat-value" fx:id="statProjects" text="0" />
+                <Label styleClass="stat-label" text="Active Projects" />
+            </VBox>
+            <VBox alignment="CENTER" spacing="4">
+                <Label styleClass="stat-value" fx:id="statInvested" text="$0" />
+                <Label styleClass="stat-label" text="Total Invested" />
+            </VBox>
+            <VBox alignment="CENTER" spacing="4">
+                <Label styleClass="stat-value" fx:id="statFarmers" text="0" />
+                <Label styleClass="stat-label" text="Verified Farmers" />
+            </VBox>
+        </HBox>
+
+        <!-- Featured Projects -->
+        <VBox styleClass="projects-section" alignment="CENTER" spacing="20">
+            <Label styleClass="section-title" text="Featured Projects" />
+            <Label styleClass="section-subtitle" text="Browse approved projects and start investing today." />
+            <FlowPane fx:id="projectsGrid" alignment="CENTER" hgap="20" vgap="20" padding="20 0 0 0" />
+        </VBox>
+
+        <!-- How It Works -->
+        <VBox styleClass="how-section" spacing="30">
+            <Label styleClass="section-title" text="How It Works" />
+            <HBox alignment="CENTER" spacing="40">
+                <VBox styleClass="how-card">
+                    <Label styleClass="step-icon" text="1" />
+                    <Label styleClass="step-title" text="Sign Up" />
+                    <Label styleClass="step-desc" text="Create your investor account in under a minute." />
+                </VBox>
+                <VBox styleClass="how-card">
+                    <Label styleClass="step-icon" text="2" />
+                    <Label styleClass="step-title" text="Browse Projects" />
+                    <Label styleClass="step-desc" text="Explore sustainable farming projects that match your goals." />
+                </VBox>
+                <VBox styleClass="how-card">
+                    <Label styleClass="step-icon" text="3" />
+                    <Label styleClass="step-title" text="Invest &amp; Grow" />
+                    <Label styleClass="step-desc" text="Fund projects and earn returns while supporting farmers." />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Testimonials -->
+        <VBox styleClass="testimonials-section" spacing="24">
+            <Label styleClass="section-title" text="What Our Community Says" />
+            <HBox alignment="CENTER" spacing="20">
+                <VBox styleClass="testimonial-card">
+                    <Label styleClass="quote" text="&ldquo;FarmConnect let me invest in my local community while earning steady returns. A win-win!&rdquo;" wrapText="true" />
+                    <Label styleClass="author" text="Sarah M." />
+                    <Label styleClass="author-role" text="Investor" />
+                </VBox>
+                <VBox styleClass="testimonial-card">
+                    <Label styleClass="quote" text="&ldquo;Thanks to the funding, I expanded my organic vegetable farm and hired three new workers.&rdquo;" wrapText="true" />
+                    <Label styleClass="author" text="James K." />
+                    <Label styleClass="author-role" text="Farmer" />
+                </VBox>
+                <VBox styleClass="testimonial-card">
+                    <Label styleClass="quote" text="&ldquo;The transparency and impact tracking make this platform stand out. Highly recommended.&rdquo;" wrapText="true" />
+                    <Label styleClass="author" text="Priya R." />
+                    <Label styleClass="author-role" text="Investor" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Footer -->
+        <VBox styleClass="footer">
+            <HBox alignment="CENTER" spacing="30">
+                <Label styleClass="footer-link" text="Home" onMouseClicked="#onHome" />
+                <Label styleClass="footer-link" text="Projects" onMouseClicked="#onProjects" />
+                <Label styleClass="footer-link" text="How It Works" onMouseClicked="#onHowItWorks" />
+                <Label styleClass="footer-link" text="About" onMouseClicked="#onAbout" />
+                <Label styleClass="footer-link" text="Contact" onMouseClicked="#onContact" />
+                <Label styleClass="footer-link" text="Privacy" />
+                <Label styleClass="footer-link" text="Terms" />
+            </HBox>
+            <Label styleClass="copyright" text="&copy; 2026 FarmConnect. All rights reserved." />
+        </VBox>
+    </VBox>
+</ScrollPane>

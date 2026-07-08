@@ -2,6 +2,6 @@ package model;
 
 public enum VerificationStatus {
     PENDING,
-    VERIFIED,
+    APPROVED,
     REJECTED
 }

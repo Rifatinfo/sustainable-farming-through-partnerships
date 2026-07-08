@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MonitorDashboardController" stylesheets="@monitor_dashboard.css">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-header" spacing="2">
+                <Label styleClass="logo-text" text="&#127793; FarmConnect" />
+                <Label styleClass="role-label" text="Monitor Panel" />
+            </VBox>
+            <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
+            <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  My Farmers" onAction="#showMyFarmers" />
+            <Button styleClass="nav-btn" fx:id="navCreateFarmer" text="&#10133;  Create Farmer Profile" onAction="#showCreateFarmer" />
+            <Button styleClass="nav-btn" fx:id="navCreateProject" text="&#128200;  Create Project" onAction="#showCreateProject" />
+            <Button styleClass="nav-btn" fx:id="navFieldUpdates" text="&#128196;  Field Updates" onAction="#showFieldUpdates" />
+            <Button styleClass="nav-btn" fx:id="navNotifications" text="&#128276;  Notifications" onAction="#showNotifications" />
+            <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button styleClass="nav-btn-logout" text="&#128682;  Logout" onAction="#onLogout" />
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <StackPane fx:id="contentStack">
+                <!-- ===== DASHBOARD ===== -->
+                <VBox fx:id="dashboardPanel" styleClass="content-area">
+                    <Label styleClass="section-title" text="Monitor Dashboard" />
+                    <Label styleClass="section-subtitle" text="Overview of your managed farmers and projects" />
+                    <FlowPane fx:id="statCards" hgap="16" vgap="16" />
+                    <VBox styleClass="activity-card" spacing="10">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Recent Activity" />
+                        <VBox fx:id="activityFeed" spacing="4" />
+                    </VBox>
+                </VBox>
+
+                <!-- ===== MY FARMERS ===== -->
+                <VBox fx:id="myFarmersPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="My Farmers" />
+                    <Label styleClass="section-subtitle" text="Farmer profiles you have created" />
+                    <TableView fx:id="farmersTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Name" prefWidth="140"><cellValueFactory><PropertyValueFactory property="fullName" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Contact" prefWidth="120"><cellValueFactory><PropertyValueFactory property="contactNumber" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Location" prefWidth="140"><cellValueFactory><PropertyValueFactory property="exactLocation" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Status" fx:id="farmerStatusCol" prefWidth="100" />
+                            <TableColumn text="Action" fx:id="farmerActionCol" prefWidth="120" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== CREATE FARMER PROFILE ===== -->
+                <VBox fx:id="createFarmerPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Create Farmer Profile" />
+                    <VBox styleClass="form-panel" spacing="12">
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Full Name" />
+                                <TextField fx:id="cfNameField" styleClass="input-field" promptText="Farmer's full name" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Contact Number" />
+                                <TextField fx:id="cfContactField" styleClass="input-field" promptText="Phone number" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Exact Location" />
+                                <TextField fx:id="cfLocationField" styleClass="input-field" promptText="Village, district" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Land Details" />
+                                <TextField fx:id="cfLandField" styleClass="input-field" promptText="Acres, plot numbers" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Soil Type" />
+                                <TextField fx:id="cfSoilField" styleClass="input-field" promptText="e.g. Loamy, Clay" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="ID Document Path" />
+                                <TextField fx:id="cfIdDocField" styleClass="input-field" promptText="File path or reference" />
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Payment Information" />
+                            <TextField fx:id="cfPaymentField" styleClass="input-field" promptText="Bank account or mobile money" />
+                        </VBox>
+                        <Label fx:id="cfError" styleClass="error-label" managed="false" />
+                        <Label fx:id="cfSuccess" styleClass="success-label" managed="false" />
+                        <Button styleClass="btn-primary" text="Create Farmer Profile" onAction="#onCreateFarmer" maxWidth="220" />
+                    </VBox>
+                </VBox>
+
+                <!-- ===== EDIT FARMER PROFILE ===== -->
+                <VBox fx:id="editFarmerPanel" styleClass="content-area" spacing="20" visible="false" managed="false">
+                    <Label styleClass="section-title" text="Edit Farmer Profile" />
+                    <VBox styleClass="form-panel" spacing="12">
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Full Name" />
+                                <TextField fx:id="efNameField" styleClass="input-field" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Contact Number" />
+                                <TextField fx:id="efContactField" styleClass="input-field" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Exact Location" />
+                                <TextField fx:id="efLocationField" styleClass="input-field" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Land Details" />
+                                <TextField fx:id="efLandField" styleClass="input-field" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Soil Type" />
+                                <TextField fx:id="efSoilField" styleClass="input-field" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="ID Document Path" />
+                                <TextField fx:id="efIdDocField" styleClass="input-field" />
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Payment Information" />
+                            <TextField fx:id="efPaymentField" styleClass="input-field" />
+                        </VBox>
+                        <Label fx:id="efError" styleClass="error-label" managed="false" />
+                        <Label fx:id="efSuccess" styleClass="success-label" managed="false" />
+                        <HBox spacing="12">
+                            <Button styleClass="btn-primary" text="Save Changes" onAction="#onEditFarmer" />
+                            <Button styleClass="btn-danger" text="Cancel" onAction="#onCancelEditFarmer" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+
+                <!-- ===== CREATE PROJECT ===== -->
+                <VBox fx:id="createProjectPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Create Project" />
+                    <VBox styleClass="form-panel" spacing="12">
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Select Farmer" />
+                            <ComboBox fx:id="cpFarmerCombo" styleClass="combo-field" promptText="Choose a farmer..." />
+                        </VBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Project Name" />
+                                <TextField fx:id="cpNameField" styleClass="input-field" promptText="e.g. Organic Rice Farm" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Investment Required ($)" />
+                                <TextField fx:id="cpRequiredField" styleClass="input-field" promptText="0.00" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Start Date" />
+                                <TextField fx:id="cpStartField" styleClass="input-field" promptText="yyyy-MM-dd" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="End Date" />
+                                <TextField fx:id="cpEndField" styleClass="input-field" promptText="yyyy-MM-dd" />
+                            </VBox>
+                        </HBox>
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Budget Limit ($)" />
+                                <TextField fx:id="cpBudgetField" styleClass="input-field" promptText="0.00" />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Risk Level" />
+                                <ComboBox fx:id="cpRiskCombo" styleClass="combo-field" promptText="Select risk" />
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Description" />
+                            <TextArea fx:id="cpDescField" styleClass="text-area-field" promptText="Describe the farming project..." prefRowCount="3" wrapText="true" />
+                        </VBox>
+                        <Label fx:id="cpError" styleClass="error-label" managed="false" />
+                        <Label fx:id="cpSuccess" styleClass="success-label" managed="false" />
+                        <Button styleClass="btn-primary" text="Create Project" onAction="#onCreateProject" maxWidth="200" />
+                    </VBox>
+
+                    <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="My Projects" />
+                    <TableView fx:id="projectsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Project" prefWidth="140"><cellValueFactory><PropertyValueFactory property="projectName" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Farmer" fx:id="projFarmerCol" prefWidth="120" />
+                            <TableColumn text="Required" prefWidth="100"><cellValueFactory><PropertyValueFactory property="investmentRequired" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Raised" prefWidth="100"><cellValueFactory><PropertyValueFactory property="fundingRaised" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Risk" fx:id="projRiskCol" prefWidth="80" />
+                            <TableColumn text="Status" fx:id="projStatusCol" prefWidth="100" />
+                            <TableColumn text="Action" fx:id="projActionCol" prefWidth="100" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== FIELD UPDATES ===== -->
+                <VBox fx:id="fieldUpdatesPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Submit Field Update" />
+                    <VBox styleClass="form-panel" spacing="12">
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Select Farmer" />
+                                <ComboBox fx:id="fuFarmerCombo" styleClass="combo-field" promptText="Choose a farmer..." />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Select Project" />
+                                <ComboBox fx:id="fuProjectCombo" styleClass="combo-field" promptText="Choose a project..." />
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Update Text" />
+                            <TextArea fx:id="fuTextField" styleClass="text-area-field" promptText="Describe the field update..." prefRowCount="4" wrapText="true" />
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label styleClass="form-label" text="Image Path (optional)" />
+                            <TextField fx:id="fuImageField" styleClass="input-field" promptText="File path or URL" />
+                        </VBox>
+                        <Label fx:id="fuError" styleClass="error-label" managed="false" />
+                        <Label fx:id="fuSuccess" styleClass="success-label" managed="false" />
+                        <Button styleClass="btn-primary" text="Submit Update" onAction="#onSubmitFieldUpdate" maxWidth="200" />
+                    </VBox>
+
+                    <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Recent Field Updates" />
+                    <TableView fx:id="fieldUpdatesTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Project" fx:id="fuProjCol" prefWidth="120" />
+                            <TableColumn text="Farmer" fx:id="fuFarmCol" prefWidth="120" />
+                            <TableColumn text="Date" prefWidth="100"><cellValueFactory><PropertyValueFactory property="updateDate" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Text" prefWidth="200"><cellValueFactory><PropertyValueFactory property="updateText" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Status" prefWidth="100"><cellValueFactory><PropertyValueFactory property="approvalStatus" /></cellValueFactory></TableColumn>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== NOTIFICATIONS ===== -->
+                <VBox fx:id="notificationsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Notifications" />
+                    <Label styleClass="section-subtitle" text="Approvals, rejections, and system messages" />
+                    <TableView fx:id="notificationsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="Date" prefWidth="120"><cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Type" prefWidth="100"><cellValueFactory><PropertyValueFactory property="type" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Message" prefWidth="400"><cellValueFactory><PropertyValueFactory property="message" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Read" fx:id="notifReadCol" prefWidth="60" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- ===== SETTINGS ===== -->
+                <VBox fx:id="settingsPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Settings" />
+                    <VBox styleClass="form-panel" spacing="14">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="My Profile" />
+                        <Label styleClass="form-label" text="Name" />
+                        <TextField fx:id="settingsNameField" styleClass="input-field" />
+                        <Label styleClass="form-label" text="Email" />
+                        <TextField fx:id="settingsEmailField" styleClass="input-field" />
+                        <Label styleClass="form-label" text="New Password (leave blank to keep current)" />
+                        <PasswordField fx:id="settingsPassField" styleClass="input-field" />
+                        <Button styleClass="btn-primary" text="Save Changes" onAction="#onSaveSettings" maxWidth="200" />
+                        <Label fx:id="settingsMsg" styleClass="success-label" managed="false" />
+                    </VBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -9,7 +9,7 @@
  * RULES:
  *  1. Farmer is NOT a User subclass. Farmer has no password, no login, no dashboard,
  *     and is NEVER stored in users.json.
- *  2. Farmer data lives in farmer_profiles.json referenced by farmerId.
+ *  2. Farmer data lives in farmer_profiles.json referenced by id.
  *  3. Every FarmerProfile stores the monitorId of the Monitor who created it.
  *  4. Only ADMIN, MONITOR, INVESTOR are valid UserRole values.
  * ======================
