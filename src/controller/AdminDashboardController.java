@@ -7,16 +7,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Admin;
+import model.ApprovalStatus;
 import model.FarmerProfile;
 import model.FieldUpdate;
 import model.Investment;
@@ -26,6 +30,7 @@ import model.Monitor;
 import model.Notification;
 import model.Project;
 import model.ProjectStatus;
+import model.ProgressStatus;
 import model.User;
 import model.UserRole;
 import model.VerificationStatus;
@@ -43,6 +48,7 @@ import service.MonitorManagementService;
 import service.NotificationService;
 import util.Route;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,12 +63,13 @@ public class AdminDashboardController extends BaseController {
 
     @FXML private StackPane contentStack;
     @FXML private VBox dashboardPanel, usersPanel, monitorsPanel, investorsPanel, farmersPanel,
-            projectsPanel, investmentsPanel, approvalsPanel, reportsPanel, settingsPanel;
+            projectsPanel, investmentsPanel, projectInfoPanel, approvalsPanel, reportsPanel, settingsPanel;
     @FXML private FlowPane statCards;
     @FXML private VBox activityFeed;
     @FXML private PieChart userChart;
+    @FXML private FlowPane projectInfoCards;
     @FXML private Button navDashboard, navUsers, navMonitors, navInvestors, navFarmers,
-            navProjects, navInvestments, navApprovals, navReports, navSettings;
+            navProjects, navInvestments, navProjectInfo, navApprovals, navReports, navSettings;
 
     @FXML private TableView<User> usersTable;
     @FXML private TableColumn<User, String> userNameCol, userEmailCol, userCreatedCol;
@@ -157,11 +164,11 @@ public class AdminDashboardController extends BaseController {
     // ===== NAVIGATION =====
     private void showPanel(VBox panel, Button activeBtn) {
         for (VBox p : List.of(dashboardPanel, usersPanel, monitorsPanel, investorsPanel, farmersPanel,
-                projectsPanel, investmentsPanel, approvalsPanel, reportsPanel, settingsPanel)) {
+                projectsPanel, investmentsPanel, projectInfoPanel, approvalsPanel, reportsPanel, settingsPanel)) {
             p.setVisible(false);
         }
         for (Button b : List.of(navDashboard, navUsers, navMonitors, navInvestors, navFarmers,
-                navProjects, navInvestments, navApprovals, navReports, navSettings)) {
+                navProjects, navInvestments, navProjectInfo, navApprovals, navReports, navSettings)) {
             b.getStyleClass().remove("nav-btn-active");
         }
         panel.setVisible(true);
@@ -176,6 +183,7 @@ public class AdminDashboardController extends BaseController {
     @FXML private void showFarmers() { showPanel(farmersPanel, navFarmers); }
     @FXML private void showProjects() { showPanel(projectsPanel, navProjects); }
     @FXML private void showInvestments() { showPanel(investmentsPanel, navInvestments); }
+    @FXML private void showProjectInfo() { showPanel(projectInfoPanel, navProjectInfo); }
     @FXML private void showApprovals() { showPanel(approvalsPanel, navApprovals); }
     @FXML private void showReports() { showPanel(reportsPanel, navReports); }
     @FXML private void showSettings() { showPanel(settingsPanel, navSettings); }
@@ -188,6 +196,7 @@ public class AdminDashboardController extends BaseController {
         else if (panel == farmersPanel) refreshFarmers();
         else if (panel == projectsPanel) refreshProjects();
         else if (panel == investmentsPanel) refreshInvestments();
+        else if (panel == projectInfoPanel) refreshProjectInfo();
         else if (panel == approvalsPanel) refreshApprovals();
         else if (panel == reportsPanel) refreshReports();
         else if (panel == settingsPanel) refreshSettings();
@@ -456,6 +465,141 @@ public class AdminDashboardController extends BaseController {
                 setGraphic(badge);
             }
         });
+    }
+
+    // ===== PROJECT INFO =====
+    private void refreshProjectInfo() {
+        projectInfoCards.getChildren().clear();
+        List<Project> allProjects = projectRepo.findAll();
+        for (Project p : allProjects) {
+            projectInfoCards.getChildren().add(buildProjectInfoCard(p));
+        }
+        if (allProjects.isEmpty()) {
+            projectInfoCards.getChildren().add(new Label("No projects available."));
+        }
+    }
+
+    private VBox buildProjectInfoCard(Project p) {
+        VBox card = new VBox(10);
+        card.getStyleClass().add("project-info-card");
+
+        Label title = new Label(p.getProjectName());
+        title.getStyleClass().add("card-title");
+
+        Label riskBadge = new Label(p.getRiskLevel().name());
+        riskBadge.getStyleClass().addAll("status-badge", "status-" + p.getRiskLevel().name().toLowerCase());
+
+        Label statusBadge = new Label(p.getStatus().name());
+        statusBadge.getStyleClass().addAll("status-badge", "status-" + p.getStatus().name().toLowerCase());
+
+        HBox topRow = new HBox(10, title, riskBadge, statusBadge);
+        topRow.getStyleClass().add("card-top-row");
+
+        String farmerName = farmerRepo.findById(p.getFarmerId())
+                .map(FarmerProfile::getFullName).orElse("Unknown");
+        String monitorName = userRepo.findById(p.getMonitorId())
+                .map(User::getName).orElse("Unknown");
+
+        Label farmerLbl = new Label("Farmer: " + farmerName);
+        farmerLbl.getStyleClass().add("card-farmer");
+        Label monitorLbl = new Label("Monitor: " + monitorName);
+        monitorLbl.getStyleClass().add("card-farmer");
+
+        Label fundingLbl = new Label(String.format("Funding: $%,.0f / $%,.0f (%.0f%%)",
+                p.getFundingRaised(), p.getInvestmentRequired(), p.getFundingPercentage()));
+        fundingLbl.getStyleClass().add("card-amount");
+
+        Label budgetLbl = new Label("Budget: $" + String.format("%,.0f", p.getBudgetLimit()));
+        budgetLbl.getStyleClass().add("card-funding");
+
+        Separator sep1 = new Separator();
+
+        Label investorTitle = new Label("Investor Information");
+        investorTitle.getStyleClass().add("card-subtitle");
+
+        List<Investment> investments = investmentRepo.findByProjectId(p.getId());
+        VBox investorBox = new VBox(4);
+        if (investments.isEmpty()) {
+            investorBox.getChildren().add(new Label("No investments yet."));
+        } else {
+            double totalInvested = 0;
+            for (Investment inv : investments) {
+                String invName = userRepo.findById(inv.getInvestorId())
+                        .map(User::getName).orElse("Unknown");
+                Label invLbl = new Label(String.format("  %s: $%,.2f (%s)", invName, inv.getAmount(), inv.getStatus()));
+                invLbl.setStyle("-fx-font-size:12;");
+                investorBox.getChildren().add(invLbl);
+                totalInvested += inv.getAmount();
+            }
+            Label totalLbl = new Label("Total Invested: $" + String.format("%,.2f", totalInvested));
+            totalLbl.setStyle("-fx-font-size:13; -fx-font-weight:bold;");
+            investorBox.getChildren().add(totalLbl);
+        }
+
+        Separator sep2 = new Separator();
+
+        Label profitTitle = new Label("Profit Distribution");
+        profitTitle.getStyleClass().add("card-subtitle");
+
+        double totalAmount = investments.stream().mapToDouble(Investment::getAmount).sum();
+        double adminShare = totalAmount * 0.50;
+        double investorShare = totalAmount * 0.30;
+        double farmerShare = totalAmount * 0.20;
+
+        VBox profitBox = new VBox(4,
+                new Label(String.format("  Admin (50%%): $%,.2f", adminShare)),
+                new Label(String.format("  Investor (30%%): $%,.2f", investorShare)),
+                new Label(String.format("  Farmer (20%%): $%,.2f", farmerShare))
+        );
+        profitBox.getChildren().forEach(n -> n.setStyle("-fx-font-size:12;"));
+
+        Separator sep3 = new Separator();
+
+        Label updatesTitle = new Label("Monitor Updates");
+        updatesTitle.getStyleClass().add("card-subtitle");
+
+        VBox updatesBox = new VBox(6);
+        List<FieldUpdate> updates = fieldUpdateRepo.findByProjectId(p.getId());
+        List<FieldUpdate> approvedUpdates = updates.stream()
+                .filter(u -> u.getApprovalStatus() == ApprovalStatus.APPROVED)
+                .collect(Collectors.toList());
+        if (approvedUpdates.isEmpty()) {
+            updatesBox.getChildren().add(new Label("No approved updates yet."));
+        } else {
+            for (FieldUpdate fu : approvedUpdates) {
+                VBox updateItem = new VBox(2);
+                Label updateText = new Label(fu.getUpdateDate() + ": " + fu.getUpdateText());
+                updateText.setStyle("-fx-font-size:12; -fx-wrap-text:true;");
+                updateText.setWrapText(true);
+                updateItem.getChildren().add(updateText);
+
+                if (fu.getProgressStatus() != null) {
+                    Label progressLbl = new Label("Status: " + (fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed"));
+                    progressLbl.setStyle("-fx-font-size:11; -fx-text-fill:#666;");
+                    updateItem.getChildren().add(progressLbl);
+                }
+
+                if (fu.getImagePath() != null && !fu.getImagePath().isEmpty()) {
+                    try {
+                        File imgFile = new File(fu.getImagePath());
+                        if (imgFile.exists()) {
+                            ImageView iv = new ImageView(new Image(imgFile.toURI().toString()));
+                            iv.setFitWidth(120);
+                            iv.setFitHeight(90);
+                            iv.setPreserveRatio(true);
+                            updateItem.getChildren().add(iv);
+                        }
+                    } catch (Exception ignored) {}
+                }
+                updatesBox.getChildren().add(updateItem);
+            }
+        }
+
+        card.getChildren().addAll(topRow, farmerLbl, monitorLbl, fundingLbl, budgetLbl,
+                sep1, investorTitle, investorBox,
+                sep2, profitTitle, profitBox,
+                sep3, updatesTitle, updatesBox);
+        return card;
     }
 
     // ===== APPROVALS =====

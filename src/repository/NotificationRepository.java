@@ -3,6 +3,7 @@ package repository;
 import model.Notification;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class NotificationRepository extends JsonRepository<Notification> {
@@ -20,7 +21,7 @@ public class NotificationRepository extends JsonRepository<Notification> {
 
     public List<Notification> findByRecipientId(String recipientId) {
         return findAll().stream()
-                .filter(n -> n.getRecipientId().equals(recipientId))
+                .filter(n -> Objects.equals(n.getRecipientId(), recipientId))
                 .collect(Collectors.toList());
     }
 

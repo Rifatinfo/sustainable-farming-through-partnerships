@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -35,6 +36,7 @@
             <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  Farmers" onAction="#showFarmers" />
             <Button styleClass="nav-btn" fx:id="navProjects" text="&#128200;  Projects" onAction="#showProjects" />
             <Button styleClass="nav-btn" fx:id="navInvestments" text="&#128179;  Investments" onAction="#showInvestments" />
+            <Button styleClass="nav-btn" fx:id="navProjectInfo" text="&#128196;  Project Info" onAction="#showProjectInfo" />
             <Button styleClass="nav-btn" fx:id="navApprovals" text="&#9989;  Approvals" onAction="#showApprovals" />
             <Button styleClass="nav-btn" fx:id="navReports" text="&#128202;  Reports" onAction="#showReports" />
             <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
@@ -239,6 +241,15 @@
                             </TableColumn>
                         </columns>
                     </TableView>
+                </VBox>
+
+                <!-- ===== PROJECT INFO PANEL ===== -->
+                <VBox fx:id="projectInfoPanel" styleClass="content-area" spacing="20">
+                    <Label styleClass="section-title" text="Project Info" />
+                    <Label styleClass="section-subtitle" text="All projects with monitor updates, investor info, and profit calculations" />
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                        <FlowPane fx:id="projectInfoCards" hgap="20" vgap="20" />
+                    </ScrollPane>
                 </VBox>
 
                 <!-- ===== APPROVALS PANEL ===== -->

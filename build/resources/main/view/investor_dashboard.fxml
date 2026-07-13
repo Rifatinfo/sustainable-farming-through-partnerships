@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -28,7 +29,7 @@
                 <Label styleClass="logo-text" text="&#127793; FarmConnect" />
                 <Label styleClass="role-label" text="Investor Portal" />
             </VBox>
-            <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
+            <Button styleClass="nav-btn nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
             <Button styleClass="nav-btn" fx:id="navBrowse" text="&#128269;  Browse Projects" onAction="#showBrowseProjects" />
             <Button styleClass="nav-btn" fx:id="navInvestments" text="&#128179;  My Investments" onAction="#showMyInvestments" />
             <Button styleClass="nav-btn" fx:id="navPortfolio" text="&#128202;  Portfolio" onAction="#showPortfolio" />
@@ -103,14 +104,12 @@
                         <Separator />
                         <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Funding Progress" />
                         <HBox spacing="12" alignment="CENTER_LEFT">
-                            <Label style="-fx-font-size:14; -fx-font-weight:600;" fx:id="pdFundingLabel" text="$0 / $0" />
+                            <Label style="-fx-font-size:14; -fx-font-weight:600;" fx:id="pdFundingLabel" text="0 / 0" />
                             <Label style="-fx-font-size:12; -fx-text-fill:#888;" fx:id="pdFundingPct" text="(0%)" />
                         </HBox>
-                        <VBox spacing="4" maxWidth="500">
-                            <Region styleClass="funding-bar-bg">
-                                <Region fx:id="pdFundingBar" styleClass="funding-bar-fill" minWidth="0" />
-                            </Region>
-                        </VBox>
+                        <StackPane fx:id="pdFundingTrack" styleClass="funding-bar-bg" alignment="CENTER_LEFT" maxWidth="500">
+                            <Region fx:id="pdFundingBar" styleClass="funding-bar-fill" minWidth="0" />
+                        </StackPane>
                         <Separator />
                         <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Make an Investment" />
                         <HBox spacing="12" alignment="CENTER_LEFT">
@@ -120,6 +119,9 @@
                         </HBox>
                         <Label fx:id="pdInvestError" styleClass="error-label" managed="false" />
                         <Label fx:id="pdInvestSuccess" styleClass="success-label" managed="false" />
+                        <Separator />
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1a237e;" text="Monitor Field Updates" />
+                        <VBox fx:id="pdFieldUpdatesBox" spacing="10" />
                     </VBox>
                 </VBox>
 

@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -238,9 +239,22 @@
                             <Label styleClass="form-label" text="Update Text" />
                             <TextArea fx:id="fuTextField" styleClass="text-area-field" promptText="Describe the field update..." prefRowCount="4" wrapText="true" />
                         </VBox>
-                        <VBox spacing="4">
-                            <Label styleClass="form-label" text="Image Path (optional)" />
-                            <TextField fx:id="fuImageField" styleClass="input-field" promptText="File path or URL" />
+                        <HBox spacing="12">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Progress Status" />
+                                <ComboBox fx:id="fuProgressCombo" styleClass="combo-field" promptText="Select status..." />
+                            </VBox>
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label styleClass="form-label" text="Upload Image (optional)" />
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Button fx:id="fuChooseImageBtn" styleClass="btn-outline" text="Choose Image" onAction="#onChooseFieldImage" />
+                                    <Label fx:id="fuImageLabel" style="-fx-font-size:12; -fx-text-fill:#888;" text="No file chosen" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                        <VBox spacing="4" visible="false" managed="false" fx:id="fuImagePreviewBox">
+                            <Label styleClass="form-label" text="Image Preview" />
+                            <ImageView fx:id="fuImageView" fitWidth="200" fitHeight="150" preserveRatio="true" />
                         </VBox>
                         <Label fx:id="fuError" styleClass="error-label" managed="false" />
                         <Label fx:id="fuSuccess" styleClass="success-label" managed="false" />
@@ -253,7 +267,8 @@
                             <TableColumn text="Project" fx:id="fuProjCol" prefWidth="120" />
                             <TableColumn text="Farmer" fx:id="fuFarmCol" prefWidth="120" />
                             <TableColumn text="Date" prefWidth="100"><cellValueFactory><PropertyValueFactory property="updateDate" /></cellValueFactory></TableColumn>
-                            <TableColumn text="Text" prefWidth="200"><cellValueFactory><PropertyValueFactory property="updateText" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Text" prefWidth="180"><cellValueFactory><PropertyValueFactory property="updateText" /></cellValueFactory></TableColumn>
+                            <TableColumn text="Progress" fx:id="fuProgressCol" prefWidth="100" />
                             <TableColumn text="Status" prefWidth="100"><cellValueFactory><PropertyValueFactory property="approvalStatus" /></cellValueFactory></TableColumn>
                         </columns>
                     </TableView>

@@ -509,7 +509,79 @@
     "recipientRole": "MONITOR",
     "message": "Farmer profile \u0027farmer\u0027 has been verified.",
     "type": "SUCCESS",
+    "isRead": true,
+    "createdAt": "2026-07-09"
+  },
+  {
+    "id": "17cfff3e-031f-4138-8bb2-53c0bb28d40b",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Project \u0027The latest solid way\u0027 has been approved.",
+    "type": "INFO",
     "isRead": false,
     "createdAt": "2026-07-09"
+  },
+  {
+    "id": "870908f7-0366-4fae-8b4c-dc28b4d58805",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Project \u0027The latest solid way\u0027 has been approved and is now open to investors.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-09"
+  },
+  {
+    "id": "e59b00b5-fff7-4a1b-8790-577a06733f5a",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "New investment of $20000.0 in project \u0027The latest solid way\u0027",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "9d7e6ce8-61c1-41f7-a2cf-08c2be1a8993",
+    "recipientId": "0a7a020e-9dc4-436f-ae7c-c1e9d0b06452",
+    "recipientRole": "ADMIN",
+    "message": "New investment of $20000.0 in project \u0027The latest solid way\u0027",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "6ffb2cca-307c-44c6-91e0-2e56e243f575",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Project \u0027the bew peojwct\u0027 has been approved.",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "76928000-4a58-4cfe-8c43-565de0d7d5f3",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "Project \u0027the bew peojwct\u0027 has been approved and is now open to investors.",
+    "type": "SUCCESS",
+    "isRead": false,
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "7f4194c9-4126-4f35-8590-4e8dda277e24",
+    "recipientId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "recipientRole": "MONITOR",
+    "message": "New investment of $2000.0 in project \u0027the bew peojwct\u0027",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "495a5653-5f6a-479d-afec-ab725b7d6abd",
+    "recipientId": "0a7a020e-9dc4-436f-ae7c-c1e9d0b06452",
+    "recipientRole": "ADMIN",
+    "message": "New investment of $2000.0 in project \u0027the bew peojwct\u0027",
+    "type": "INFO",
+    "isRead": false,
+    "createdAt": "2026-07-10"
   }
 ]

@@ -260,6 +260,26 @@
     -fx-text-fill: #c62828;
 }
 
+.status-inprogress {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1565c0;
+}
+
+.btn-outline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2e7d32;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-border-color: #2e7d32;
+    -fx-border-radius: 4;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+
+.btn-outline:hover {
+    -fx-background-color: #e8f5e9;
+}
+
 .error-label {
     -fx-font-size: 12;
     -fx-text-fill: #e53935;
