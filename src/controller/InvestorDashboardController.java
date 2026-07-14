@@ -8,26 +8,33 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import model.ApprovalStatus;
 import model.FarmerProfile;
+import model.FieldUpdate;
 import model.Investment;
 import model.InvestmentStatus;
 import model.Investor;
 import model.Notification;
 import model.Project;
 import model.ProjectStatus;
+import model.ProgressStatus;
 import model.RiskLevel;
 import model.UserRole;
 import repository.FarmerProfileRepository;
+import repository.FieldUpdateRepository;
 import repository.InvestmentRepository;
 import repository.NotificationRepository;
 import repository.ProjectRepository;
@@ -37,6 +44,7 @@ import service.ProjectService;
 import util.Route;
 import util.UserSession;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -71,9 +79,11 @@ public class InvestorDashboardController extends BaseController {
     @FXML private Label pdTitle, pdDescription, pdFarmer, pdLocation,
             pdStartDate, pdEndDate, pdRiskBadge, pdBudget,
             pdFundingLabel, pdFundingPct;
+    @FXML private StackPane pdFundingTrack;
     @FXML private Region pdFundingBar;
     @FXML private TextField pdInvestAmount;
     @FXML private Label pdInvestError, pdInvestSuccess;
+    @FXML private VBox pdFieldUpdatesBox;
     private String selectedProjectId;
 
     // My Investments
@@ -108,6 +118,7 @@ public class InvestorDashboardController extends BaseController {
     private final InvestmentRepository investmentRepo = new InvestmentRepository();
     private final ProjectRepository projectRepo = new ProjectRepository();
     private final UserRepository userRepo = new UserRepository();
+    private final FieldUpdateRepository fieldUpdateRepo = new FieldUpdateRepository();
 
     private String getInvestorId() {
         return UserSession.getUserId();
@@ -115,27 +126,64 @@ public class InvestorDashboardController extends BaseController {
 
     @FXML
     public void initialize() {
-        setupInvestmentsProjectColumn();
-        setupInvestmentStatusColumn();
-        setupProfitProjectColumn();
-        setupProfitStatusColumn();
-        setupNotificationReadColumn();
-        showDashboard();
+        try {
+            setupInvestmentsProjectColumn();
+            setupInvestmentStatusColumn();
+            setupProfitProjectColumn();
+            setupProfitStatusColumn();
+            setupNotificationReadColumn();
+            showDashboard();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showFallbackDashboard("Investor dashboard loaded, but some data could not be displayed.");
+        }
     }
 
     // ===== NAVIGATION =====
 
     private void showPanel(VBox panel, Button activeBtn) {
+        try {
+            List<VBox> allPanels = List.of(dashboardPanel, browseProjectsPanel, projectDetailsPanel,
+                    myInvestmentsPanel, portfolioPanel, profitHistoryPanel,
+                    notificationsPanel, settingsPanel);
+            for (VBox p : allPanels) {
+                p.setVisible(false);
+                p.setManaged(false);
+            }
+            List<Button> navBtns = List.of(navDashboard, navBrowse, navInvestments, navPortfolio,
+                    navProfitHistory, navNotifications, navSettings);
+            for (Button b : navBtns) b.getStyleClass().remove("nav-btn-active");
+            panel.setVisible(true);
+            panel.setManaged(true);
+            activeBtn.getStyleClass().add("nav-btn-active");
+            refreshPanel(panel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showFallbackDashboard("This section could not be loaded. Please check the saved data files.");
+        }
+    }
+
+    private void showFallbackDashboard(String message) {
+        if (dashboardPanel == null) {
+            return;
+        }
         List<VBox> allPanels = List.of(dashboardPanel, browseProjectsPanel, projectDetailsPanel,
                 myInvestmentsPanel, portfolioPanel, profitHistoryPanel,
                 notificationsPanel, settingsPanel);
-        for (VBox p : allPanels) p.setVisible(false);
-        List<Button> navBtns = List.of(navDashboard, navBrowse, navInvestments, navPortfolio,
-                navProfitHistory, navNotifications, navSettings);
-        for (Button b : navBtns) b.getStyleClass().remove("nav-btn-active");
-        panel.setVisible(true);
-        activeBtn.getStyleClass().add("nav-btn-active");
-        refreshPanel(panel);
+        for (VBox p : allPanels) {
+            if (p != null) {
+                p.setVisible(false);
+                p.setManaged(false);
+            }
+        }
+        dashboardPanel.setVisible(true);
+        dashboardPanel.setManaged(true);
+        dashboardPanel.getChildren().setAll(
+                new Label("Investor Dashboard"),
+                new Label(message)
+        );
+        dashboardPanel.getChildren().get(0).getStyleClass().add("section-title");
+        dashboardPanel.getChildren().get(1).getStyleClass().add("error-label");
     }
 
     @FXML private void showDashboard() { showPanel(dashboardPanel, navDashboard); }
@@ -184,10 +232,11 @@ public class InvestorDashboardController extends BaseController {
 
         dashActivityFeed.getChildren().clear();
         List<Notification> recent = notificationRepo.findByRecipientId(iid);
-        recent.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        recent.sort(Comparator.comparing(Notification::getCreatedAt,
+                Comparator.nullsLast(String::compareTo)).reversed());
         for (int i = 0; i < Math.min(8, recent.size()); i++) {
             Notification n = recent.get(i);
-            VBox item = new VBox(2, new Label(n.getCreatedAt() + " \u2014 " + n.getMessage()));
+            VBox item = new VBox(2, new Label(safeText(n.getCreatedAt()) + " - " + safeText(n.getMessage())));
             item.getStyleClass().add("activity-item");
             dashActivityFeed.getChildren().add(item);
         }
@@ -227,11 +276,12 @@ public class InvestorDashboardController extends BaseController {
         String farmerName = farmerRepo.findById(p.getFarmerId())
                 .map(FarmerProfile::getFullName).orElse("Unknown");
 
-        Label title = new Label(p.getProjectName());
+        Label title = new Label(safeText(p.getProjectName()));
         title.getStyleClass().add("card-title");
 
-        Label riskBadge = new Label(p.getRiskLevel().name());
-        String riskClass = "status-" + p.getRiskLevel().name().toLowerCase();
+        RiskLevel risk = p.getRiskLevel() == null ? RiskLevel.MEDIUM : p.getRiskLevel();
+        Label riskBadge = new Label(risk.name());
+        String riskClass = "status-" + risk.name().toLowerCase();
         riskBadge.getStyleClass().addAll("status-badge", riskClass);
 
         HBox topRow = new HBox(12, title, riskBadge);
@@ -303,14 +353,70 @@ public class InvestorDashboardController extends BaseController {
         double pct = p.getFundingPercentage();
         pdFundingLabel.setText(String.format("$%,.0f / $%,.0f", p.getFundingRaised(), p.getInvestmentRequired()));
         pdFundingPct.setText("(" + String.format("%.0f", pct) + "%)");
-        pdFundingBar.setMinWidth(Math.min(pct / 100.0 * 460, 460));
-        pdFundingBar.setMaxWidth(Math.min(pct / 100.0 * 460, 460));
+        double trackWidth = pdFundingTrack.getWidth() > 0 ? pdFundingTrack.getWidth() : 500;
+        double fillWidth = Math.min(pct / 100.0 * trackWidth, trackWidth);
+        pdFundingBar.setMinWidth(fillWidth);
+        pdFundingBar.setMaxWidth(fillWidth);
 
         pdInvestAmount.clear();
+
+        loadFieldUpdatesForProject(p.getId());
 
         browseProjectsPanel.setVisible(false);
         projectDetailsPanel.setVisible(true);
         projectDetailsPanel.setManaged(true);
+    }
+
+    private void loadFieldUpdatesForProject(String projectId) {
+        pdFieldUpdatesBox.getChildren().clear();
+        List<FieldUpdate> updates = fieldUpdateRepo.findByProjectId(projectId).stream()
+                .sorted(Comparator.comparing(FieldUpdate::getUpdateDate, Comparator.nullsLast(String::compareTo)).reversed())
+                .collect(Collectors.toList());
+
+        if (updates.isEmpty()) {
+            pdFieldUpdatesBox.getChildren().add(new Label("No field updates available for this project."));
+            return;
+        }
+
+        for (FieldUpdate fu : updates) {
+            VBox updateCard = new VBox(4);
+            updateCard.getStyleClass().add("activity-card");
+
+            Label dateLabel = new Label(fu.getUpdateDate());
+            dateLabel.setStyle("-fx-font-size:11; -fx-text-fill:#888;");
+
+            Label textLabel = new Label(fu.getUpdateText());
+            textLabel.setStyle("-fx-font-size:13; -fx-wrap-text:true;");
+            textLabel.setWrapText(true);
+
+            HBox statusRow = new HBox(8);
+            if (fu.getProgressStatus() != null) {
+                Label progressBadge = new Label(fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed");
+                String cls = fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "status-inprogress" : "status-completed";
+                progressBadge.getStyleClass().addAll("status-badge", cls);
+                statusRow.getChildren().add(progressBadge);
+            }
+            Label approvalBadge = new Label(fu.getApprovalStatus().name());
+            approvalBadge.getStyleClass().addAll("status-badge", "status-" + fu.getApprovalStatus().name().toLowerCase());
+            statusRow.getChildren().add(approvalBadge);
+
+            updateCard.getChildren().addAll(dateLabel, textLabel, statusRow);
+
+            if (fu.getImagePath() != null && !fu.getImagePath().isEmpty()) {
+                try {
+                    File imgFile = new File(fu.getImagePath());
+                    if (imgFile.exists()) {
+                        ImageView iv = new ImageView(new Image(imgFile.toURI().toString()));
+                        iv.setFitWidth(150);
+                        iv.setFitHeight(110);
+                        iv.setPreserveRatio(true);
+                        updateCard.getChildren().add(iv);
+                    }
+                } catch (Exception ignored) {}
+            }
+
+            pdFieldUpdatesBox.getChildren().add(updateCard);
+        }
     }
 
     @FXML
@@ -379,7 +485,8 @@ public class InvestorDashboardController extends BaseController {
 
     private void refreshInvestments() {
         List<Investment> investments = investmentService.getInvestmentsByInvestor(getInvestorId());
-        investments.sort((a, b) -> b.getInvestmentDate().compareTo(a.getInvestmentDate()));
+        investments.sort(Comparator.comparing(Investment::getInvestmentDate,
+                Comparator.nullsLast(String::compareTo)).reversed());
         investmentsTable.setItems(FXCollections.observableArrayList(investments));
     }
 
@@ -409,8 +516,9 @@ public class InvestorDashboardController extends BaseController {
                     return;
                 }
                 Investment inv = (Investment) getTableRow().getItem();
-                Label badge = new Label(inv.getStatus().name());
-                String cls = "status-" + inv.getStatus().name().toLowerCase();
+                InvestmentStatus status = inv.getStatus() == null ? InvestmentStatus.ACTIVE : inv.getStatus();
+                Label badge = new Label(status.name());
+                String cls = "status-" + status.name().toLowerCase();
                 badge.getStyleClass().addAll("status-badge", cls);
                 setGraphic(badge);
             }
@@ -460,7 +568,8 @@ public class InvestorDashboardController extends BaseController {
         List<Investment> completed = investmentService.getInvestmentsByInvestor(iid).stream()
                 .filter(i -> i.getStatus() == InvestmentStatus.COMPLETED)
                 .collect(Collectors.toList());
-        completed.sort((a, b) -> a.getInvestmentDate().compareTo(b.getInvestmentDate()));
+        completed.sort(Comparator.comparing(Investment::getInvestmentDate,
+                Comparator.nullsLast(String::compareTo)));
         profitTable.setItems(FXCollections.observableArrayList(completed));
 
         XYChart.Series<String, Number> expectedSeries = new XYChart.Series<>();
@@ -509,8 +618,9 @@ public class InvestorDashboardController extends BaseController {
                     return;
                 }
                 Investment inv = (Investment) getTableRow().getItem();
-                Label badge = new Label(inv.getStatus().name());
-                String cls = "status-" + inv.getStatus().name().toLowerCase();
+                InvestmentStatus status = inv.getStatus() == null ? InvestmentStatus.ACTIVE : inv.getStatus();
+                Label badge = new Label(status.name());
+                String cls = "status-" + status.name().toLowerCase();
                 badge.getStyleClass().addAll("status-badge", cls);
                 setGraphic(badge);
             }
@@ -521,7 +631,8 @@ public class InvestorDashboardController extends BaseController {
 
     private void refreshNotifications() {
         List<Notification> notifs = notificationRepo.findByRecipientId(getInvestorId());
-        notifs.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        notifs.sort(Comparator.comparing(Notification::getCreatedAt,
+                Comparator.nullsLast(String::compareTo)).reversed());
         investorNotifTable.setItems(FXCollections.observableArrayList(notifs));
     }
 
@@ -609,5 +720,9 @@ public class InvestorDashboardController extends BaseController {
     @FXML
     private void onLogout() {
         sceneManager.navigateToLogout();
+    }
+
+    private String safeText(String value) {
+        return value == null || value.trim().isEmpty() ? "N/A" : value;
     }
 }

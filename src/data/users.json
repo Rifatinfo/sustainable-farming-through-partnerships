@@ -35,5 +35,32 @@
     "passwordHash": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
     "role": "MONITOR",
     "createdAt": "2026-07-08"
+  },
+  {
+    "walletBalance": 0.0,
+    "id": "11574948-e91c-44a0-9fe4-c47cb406d0b8",
+    "name": "sifat",
+    "email": "sifat@gmail.com",
+    "passwordHash": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+    "role": "INVESTOR",
+    "createdAt": "2026-07-09"
+  },
+  {
+    "walletBalance": 0.0,
+    "id": "0cd03953-b22e-496d-a2e1-a4deff5c69ed",
+    "name": "zara",
+    "email": "zara@gmail.com",
+    "passwordHash": "8e3480027853ea3efcccf0b7e7c3ae3f1fd4219403dc04603cc820d0576b7235",
+    "role": "INVESTOR",
+    "createdAt": "2026-07-10"
+  },
+  {
+    "walletBalance": 0.0,
+    "id": "fb967c90-0c8d-4d7f-bd8e-54ebf4704232",
+    "name": "sara",
+    "email": "sara@gmail.com",
+    "passwordHash": "926b4b8a00cfab44b758450fa6bf188d4bf8541c2fd6b3d9b93d152d43a99f64",
+    "role": "INVESTOR",
+    "createdAt": "2026-07-10"
   }
 ]

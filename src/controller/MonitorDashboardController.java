@@ -13,15 +13,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import model.ApprovalStatus;
 import model.FarmerProfile;
 import model.FieldUpdate;
 import model.Monitor;
 import model.Notification;
+import model.ProgressStatus;
 import model.Project;
 import model.RiskLevel;
 import model.UserRole;
@@ -35,6 +39,11 @@ import service.ProjectService;
 import util.Route;
 import util.UserSession;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -88,10 +97,15 @@ public class MonitorDashboardController extends BaseController {
     @FXML private ComboBox<FarmerProfile> fuFarmerCombo;
     @FXML private ComboBox<Project> fuProjectCombo;
     @FXML private TextArea fuTextField;
-    @FXML private TextField fuImageField;
+    @FXML private ComboBox<ProgressStatus> fuProgressCombo;
+    @FXML private Button fuChooseImageBtn;
+    @FXML private Label fuImageLabel;
+    @FXML private VBox fuImagePreviewBox;
+    @FXML private ImageView fuImageView;
     @FXML private Label fuError, fuSuccess;
     @FXML private TableView<FieldUpdate> fieldUpdatesTable;
     @FXML private TableColumn<FieldUpdate, String> fuProjCol, fuFarmCol;
+    @FXML private TableColumn<FieldUpdate, Void> fuProgressCol;
 
     // Notifications
     @FXML private TableView<Notification> notificationsTable;
@@ -105,6 +119,16 @@ public class MonitorDashboardController extends BaseController {
     private final FarmerProfileRepository farmerRepo = new FarmerProfileRepository();
     private final FarmerProfileService farmerService = new FarmerProfileService();
     private final ProjectService projectService = new ProjectService();
+    private File selectedImageFile;
+
+    private void refreshFarmerCombos() {
+        List<FarmerProfile> farmers = farmerService.getProfilesByMonitor(getMonitorId())
+                .stream()
+                .filter(f -> f.getVerificationStatus() == VerificationStatus.APPROVED)
+                .collect(Collectors.toList());
+        cpFarmerCombo.setItems(FXCollections.observableArrayList(farmers));
+        fuFarmerCombo.setItems(FXCollections.observableArrayList(farmers));
+    }
     private final FieldUpdateRepository fieldUpdateRepo = new FieldUpdateRepository();
     private final NotificationRepository notificationRepo = new NotificationRepository();
     private final UserRepository userRepo = new UserRepository();
@@ -116,6 +140,7 @@ public class MonitorDashboardController extends BaseController {
     @FXML
     public void initialize() {
         cpRiskCombo.setItems(FXCollections.observableArrayList(RiskLevel.values()));
+        fuProgressCombo.setItems(FXCollections.observableArrayList(ProgressStatus.values()));
         setupFarmerCombo(cpFarmerCombo);
         setupFarmerCombo(fuFarmerCombo);
         setupProjectCombo();
@@ -127,6 +152,7 @@ public class MonitorDashboardController extends BaseController {
         setupProjectsActionColumn();
         setupFieldUpdatestFarmColumn();
         setupFieldUpdatesProjColumn();
+        setupFieldUpdatesProgressColumn();
         setupNotificationsReadColumn();
         showDashboard();
     }
@@ -172,8 +198,8 @@ public class MonitorDashboardController extends BaseController {
     private void refreshPanel(VBox panel) {
         if (panel == dashboardPanel) refreshDashboard();
         else if (panel == myFarmersPanel) refreshFarmers();
-        else if (panel == createProjectPanel) refreshProjects();
-        else if (panel == fieldUpdatesPanel) refreshFieldUpdates();
+        else if (panel == createProjectPanel) { refreshProjects(); refreshFarmerCombos(); }
+        else if (panel == fieldUpdatesPanel) { refreshFieldUpdates(); refreshFarmerCombos(); }
         else if (panel == notificationsPanel) refreshNotifications();
         else if (panel == settingsPanel) refreshSettings();
     }
@@ -509,6 +535,52 @@ public class MonitorDashboardController extends BaseController {
     // ===== FIELD UPDATES =====
 
     @FXML
+    private void onChooseFieldImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            selectedImageFile = file;
+            fuImageLabel.setText(file.getName());
+            try {
+                Image image = new Image(file.toURI().toString());
+                fuImageView.setImage(image);
+                fuImagePreviewBox.setVisible(true);
+                fuImagePreviewBox.setManaged(true);
+            } catch (Exception e) {
+                fuImagePreviewBox.setVisible(false);
+                fuImagePreviewBox.setManaged(false);
+            }
+        }
+    }
+
+    private String copyImageToUploads(File sourceFile) {
+        try {
+            Path uploadsDir = Path.of("src/data/uploads");
+            if (!Files.exists(uploadsDir)) {
+                Files.createDirectories(uploadsDir);
+            }
+            String ext = "";
+            String name = sourceFile.getName();
+            int dotIdx = name.lastIndexOf('.');
+            if (dotIdx > 0) {
+                ext = name.substring(dotIdx);
+            }
+            String destName = "fu_" + System.currentTimeMillis() + ext;
+            Path destPath = uploadsDir.resolve(destName);
+            Files.copy(sourceFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
+            return destPath.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @FXML
     private void onSubmitFieldUpdate() {
         fuError.setManaged(false);
         fuSuccess.setManaged(false);
@@ -516,12 +588,17 @@ public class MonitorDashboardController extends BaseController {
         FarmerProfile farmer = fuFarmerCombo.getValue();
         Project project = fuProjectCombo.getValue();
         String text = fuTextField.getText();
-        String imagePath = fuImageField.getText();
+        ProgressStatus progressStatus = fuProgressCombo.getValue();
 
-        if (farmer == null || project == null || text.isEmpty()) {
+        if (farmer == null || project == null || text.isEmpty() || progressStatus == null) {
             fuError.setManaged(true);
-            fuError.setText("Farmer, project, and update text are required.");
+            fuError.setText("Farmer, project, update text, and progress status are required.");
             return;
+        }
+
+        String imagePath = null;
+        if (selectedImageFile != null && selectedImageFile.exists()) {
+            imagePath = copyImageToUploads(selectedImageFile);
         }
 
         FieldUpdate update = new FieldUpdate();
@@ -530,15 +607,21 @@ public class MonitorDashboardController extends BaseController {
         update.setFarmerId(farmer.getId());
         update.setMonitorId(getMonitorId());
         update.setUpdateText(text);
-        update.setImagePath(imagePath.isEmpty() ? null : imagePath);
+        update.setImagePath(imagePath);
         update.setUpdateDate(LocalDate.now().toString());
         update.setApprovalStatus(ApprovalStatus.PENDING);
+        update.setProgressStatus(progressStatus);
 
         fieldUpdateRepo.add(update);
         fuFarmerCombo.setValue(null);
         fuProjectCombo.setItems(FXCollections.observableArrayList());
         fuTextField.clear();
-        fuImageField.clear();
+        fuProgressCombo.setValue(null);
+        selectedImageFile = null;
+        fuImageLabel.setText("No file chosen");
+        fuImageView.setImage(null);
+        fuImagePreviewBox.setVisible(false);
+        fuImagePreviewBox.setManaged(false);
         fuSuccess.setManaged(true);
         fuSuccess.setText("Field update submitted successfully (pending approval).");
         refreshFieldUpdates();
@@ -583,6 +666,28 @@ public class MonitorDashboardController extends BaseController {
                         p -> setText(p.getProjectName()),
                         () -> setText("Unknown")
                 );
+            }
+        });
+    }
+
+    private void setupFieldUpdatesProgressColumn() {
+        fuProgressCol.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setGraphic(null);
+                    return;
+                }
+                FieldUpdate fu = (FieldUpdate) getTableRow().getItem();
+                ProgressStatus ps = fu.getProgressStatus();
+                if (ps == null) {
+                    setGraphic(null);
+                    return;
+                }
+                Label badge = new Label(ps == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed");
+                String cls = ps == ProgressStatus.IN_PROGRESS ? "status-inprogress" : "status-completed";
+                badge.getStyleClass().addAll("status-badge", cls);
+                setGraphic(badge);
             }
         });
     }

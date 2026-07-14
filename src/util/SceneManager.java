@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.UserSession;
 
-import java.io.IOException;
 import java.util.Stack;
 
 public class SceneManager {
@@ -30,11 +29,13 @@ public class SceneManager {
         this.primaryStage = stage;
     }
 
-    public void navigateTo(Route route) {
-        if (currentRoute != null) {
-            history.push(currentRoute);
+    public boolean navigateTo(Route route) {
+        Route previousRoute = currentRoute;
+        boolean changed = switchScene(route);
+        if (changed && previousRoute != null) {
+            history.push(previousRoute);
         }
-        switchScene(route);
+        return changed;
     }
 
     public void navigateToLogout() {
@@ -46,8 +47,11 @@ public class SceneManager {
 
     public void goBack() {
         if (!history.isEmpty()) {
-            currentRoute = history.pop();
-            switchScene(currentRoute);
+            Route previousRoute = currentRoute;
+            Route backRoute = history.pop();
+            if (!switchScene(backRoute) && previousRoute != null) {
+                currentRoute = previousRoute;
+            }
         }
     }
 
@@ -63,7 +67,7 @@ public class SceneManager {
         return currentRoute;
     }
 
-    private void switchScene(Route route) {
+    private boolean switchScene(Route route) {
         try {
             String fxmlPath = route.getFxmlPath();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -77,10 +81,18 @@ public class SceneManager {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle(route.getTitle());
+            if (primaryStage.getWidth() < 200 || primaryStage.getHeight() < 200) {
+                primaryStage.setMinWidth(1100);
+                primaryStage.setMinHeight(700);
+                primaryStage.setWidth(1280);
+                primaryStage.setHeight(780);
+            }
             currentRoute = route;
             primaryStage.show();
-        } catch (IOException e) {
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

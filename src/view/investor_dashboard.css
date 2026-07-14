@@ -291,6 +291,11 @@
     -fx-text-fill: #2e7d32;
 }
 
+.status-rejected {
+    -fx-background-color: #ffebee;
+    -fx-text-fill: #c62828;
+}
+
 .status-active {
     -fx-background-color: #e3f2fd;
     -fx-text-fill: #1565c0;
@@ -319,6 +324,11 @@
 .status-high {
     -fx-background-color: #ffebee;
     -fx-text-fill: #c62828;
+}
+
+.status-inprogress {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1565c0;
 }
 
 .error-label {

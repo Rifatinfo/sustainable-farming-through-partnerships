@@ -15,12 +15,13 @@ public class FieldUpdate implements Serializable {
     private String imagePath;
     private String updateDate;
     private ApprovalStatus approvalStatus;
+    private ProgressStatus progressStatus;
 
     public FieldUpdate() {}
 
     public FieldUpdate(String id, String projectId, String farmerId, String monitorId,
                        String updateText, String imagePath, String updateDate,
-                       ApprovalStatus approvalStatus) {
+                       ApprovalStatus approvalStatus, ProgressStatus progressStatus) {
         this.id = id;
         this.projectId = projectId;
         this.farmerId = farmerId;
@@ -29,6 +30,7 @@ public class FieldUpdate implements Serializable {
         this.imagePath = imagePath;
         this.updateDate = updateDate;
         this.approvalStatus = approvalStatus;
+        this.progressStatus = progressStatus;
     }
 
     public String getId() { return id; }
@@ -54,6 +56,9 @@ public class FieldUpdate implements Serializable {
 
     public ApprovalStatus getApprovalStatus() { return approvalStatus; }
     public void setApprovalStatus(ApprovalStatus approvalStatus) { this.approvalStatus = approvalStatus; }
+
+    public ProgressStatus getProgressStatus() { return progressStatus; }
+    public void setProgressStatus(ProgressStatus progressStatus) { this.progressStatus = progressStatus; }
 
     @Override
     public String toString() {

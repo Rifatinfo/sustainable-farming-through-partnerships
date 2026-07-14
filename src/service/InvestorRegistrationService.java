@@ -19,14 +19,17 @@ public class InvestorRegistrationService {
     }
 
     public Investor register(String name, String email, String password) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        String normalizedName = name == null ? "" : name.trim();
+        String normalizedEmail = email == null ? "" : email.trim();
+        String normalizedPassword = password == null ? "" : password.trim();
+        if (userRepository.findByEmail(normalizedEmail).isPresent()) {
             return null;
         }
         Investor investor = new Investor();
         investor.setId(userRepository.generateUuid());
-        investor.setName(name);
-        investor.setEmail(email);
-        investor.setPasswordHash(PasswordUtil.hash(password));
+        investor.setName(normalizedName);
+        investor.setEmail(normalizedEmail);
+        investor.setPasswordHash(PasswordUtil.hash(normalizedPassword));
         investor.setCreatedAt(LocalDate.now().toString());
         investor.setWalletBalance(0.0);
         userRepository.add(investor);

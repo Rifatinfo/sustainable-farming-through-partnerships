@@ -4,6 +4,7 @@ import model.Project;
 import model.ProjectStatus;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProjectRepository extends JsonRepository<Project> {
@@ -21,13 +22,13 @@ public class ProjectRepository extends JsonRepository<Project> {
 
     public List<Project> findByFarmerId(String farmerId) {
         return findAll().stream()
-                .filter(p -> p.getFarmerId().equals(farmerId))
+                .filter(p -> Objects.equals(p.getFarmerId(), farmerId))
                 .collect(Collectors.toList());
     }
 
     public List<Project> findByMonitorId(String monitorId) {
         return findAll().stream()
-                .filter(p -> p.getMonitorId().equals(monitorId))
+                .filter(p -> Objects.equals(p.getMonitorId(), monitorId))
                 .collect(Collectors.toList());
     }
 

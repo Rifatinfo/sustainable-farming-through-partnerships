@@ -21,8 +21,10 @@ public class AuthService {
 
     public User login(String email, String password) {
         seedDefaultAdmin();
-        return userRepository.findByEmail(email)
-                .filter(user -> PasswordUtil.verify(password, user.getPasswordHash()))
+        String normalizedEmail = email == null ? "" : email.trim();
+        String normalizedPassword = password == null ? "" : password.trim();
+        return userRepository.findByEmail(normalizedEmail)
+                .filter(user -> PasswordUtil.verify(normalizedPassword, user.getPasswordHash()))
                 .orElse(null);
     }
 

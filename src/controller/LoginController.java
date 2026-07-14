@@ -32,8 +32,8 @@ public class LoginController extends BaseController {
     @FXML
     private void onLogin() {
         clearErrors();
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        String email = emailField.getText() == null ? "" : emailField.getText().trim();
+        String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         boolean valid = true;
         if (!ValidationService.isValidEmail(email)) {
             showError(emailError, "Please enter a valid email address.");
@@ -70,7 +70,10 @@ public class LoginController extends BaseController {
                 showError(generalError, "Unknown user role.");
                 return;
         }
-        sceneManager.navigateTo(route);
+        if (!sceneManager.navigateTo(route)) {
+            UserSession.logout();
+            showError(generalError, "Login succeeded, but the " + route.getTitle() + " screen failed to open. Check the console for the exact error.");
+        }
     }
 
     @FXML

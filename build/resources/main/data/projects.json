@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "3f4a0b1b-5143-4705-ac5a-6a90938477c4",
+    "projectName": "The latest solid way",
+    "description": "the way of projects create . ",
+    "investmentRequired": 20000.0,
+    "fundingRaised": 20000.0,
+    "startDate": "12/07/26",
+    "endDate": "24/07/26",
+    "budgetLimit": 20000.0,
+    "riskLevel": "MEDIUM",
+    "status": "APPROVED",
+    "farmerId": "095ff10e-751b-489b-b1dd-8c895f593fdc",
+    "monitorId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "createdAt": "2026-07-09"
+  },
+  {
+    "id": "7cc6de5a-361e-405f-bdb9-2867d02304e2",
+    "projectName": "the bew peojwct",
+    "description": "n/A",
+    "investmentRequired": 5000.0,
+    "fundingRaised": 2000.0,
+    "startDate": "2/1/24",
+    "endDate": "2/30/24",
+    "budgetLimit": 50000.0,
+    "riskLevel": "LOW",
+    "status": "APPROVED",
+    "farmerId": "095ff10e-751b-489b-b1dd-8c895f593fdc",
+    "monitorId": "7addccb9-03cd-42d3-b288-c8ac0e3e4ee3",
+    "createdAt": "2026-07-10"
+  }
+]

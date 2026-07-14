@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": "662c276e-5eb9-4bf1-9be3-4ea5071182f7",
+    "investorId": "fb967c90-0c8d-4d7f-bd8e-54ebf4704232",
+    "projectId": "3f4a0b1b-5143-4705-ac5a-6a90938477c4",
+    "amount": 20000.0,
+    "investmentDate": "2026-07-10",
+    "expectedProfit": 0.0,
+    "actualProfit": 0.0,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b11c72e8-a527-4e2b-a1d5-02c661d24a94",
+    "investorId": "0cd03953-b22e-496d-a2e1-a4deff5c69ed",
+    "projectId": "7cc6de5a-361e-405f-bdb9-2867d02304e2",
+    "amount": 2000.0,
+    "investmentDate": "2026-07-10",
+    "expectedProfit": 0.0,
+    "actualProfit": 0.0,
+    "status": "ACTIVE"
+  }
+]
