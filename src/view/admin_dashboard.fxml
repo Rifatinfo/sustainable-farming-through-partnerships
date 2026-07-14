@@ -24,341 +24,338 @@
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminDashboardController" stylesheets="@admin_dashboard.css">
     <!-- SIDEBAR -->
     <left>
-        <VBox styleClass="sidebar">
+        <VBox styleClass="sidebar" prefWidth="240" minWidth="240" maxWidth="240">
             <VBox styleClass="sidebar-header" spacing="2">
                 <Label styleClass="logo-text" text="&#127793; FarmConnect" />
                 <Label styleClass="role-label" text="Admin Panel" />
             </VBox>
-            <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
-            <Button styleClass="nav-btn" fx:id="navUsers" text="&#128101;  Users" onAction="#showUsers" />
-            <Button styleClass="nav-btn" fx:id="navMonitors" text="&#128188;  Monitors" onAction="#showMonitors" />
-            <Button styleClass="nav-btn" fx:id="navInvestors" text="&#128176;  Investors" onAction="#showInvestors" />
-            <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  Farmers" onAction="#showFarmers" />
-            <Button styleClass="nav-btn" fx:id="navProjects" text="&#128200;  Projects" onAction="#showProjects" />
-            <Button styleClass="nav-btn" fx:id="navInvestments" text="&#128179;  Investments" onAction="#showInvestments" />
-            <Button styleClass="nav-btn" fx:id="navProjectInfo" text="&#128196;  Project Info" onAction="#showProjectInfo" />
-            <Button styleClass="nav-btn" fx:id="navApprovals" text="&#9989;  Approvals" onAction="#showApprovals" />
-            <Button styleClass="nav-btn" fx:id="navReports" text="&#128202;  Reports" onAction="#showReports" />
-            <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
-            <Region VBox.vgrow="ALWAYS" />
+            <VBox styleClass="nav-menu" spacing="2" VBox.vgrow="ALWAYS">
+                <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
+                <Button styleClass="nav-btn" fx:id="navUsers" text="&#128101;  Users" onAction="#showUsers" />
+                <Button styleClass="nav-btn" fx:id="navMonitors" text="&#128188;  Monitors" onAction="#showMonitors" />
+                <Button styleClass="nav-btn" fx:id="navInvestors" text="&#128176;  Investors" onAction="#showInvestors" />
+                <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  Farmers" onAction="#showFarmers" />
+                <Button styleClass="nav-btn" fx:id="navProjects" text="&#128200;  Projects" onAction="#showProjects" />
+                <Button styleClass="nav-btn" fx:id="navInvestments" text="&#128179;  Investments" onAction="#showInvestments" />
+                <Button styleClass="nav-btn" fx:id="navProjectInfo" text="&#128196;  Project Info" onAction="#showProjectInfo" />
+                <Button styleClass="nav-btn" fx:id="navApprovals" text="&#9989;  Approvals" onAction="#showApprovals" />
+                <Button styleClass="nav-btn" fx:id="navReports" text="&#128202;  Reports" onAction="#showReports" />
+                <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
+            </VBox>
             <Button styleClass="nav-btn-logout" text="&#128682;  Logout" onAction="#onLogout" />
         </VBox>
     </left>
 
     <!-- CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true">
-            <StackPane fx:id="contentStack">
-                <!-- ===== DASHBOARD PANEL ===== -->
-                <VBox fx:id="dashboardPanel" styleClass="content-area" visible="true">
-                    <Label styleClass="section-title" text="Admin Dashboard" />
-                    <Label styleClass="section-subtitle" text="Overview of your farming platform" />
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                <StackPane fx:id="contentStack">
+                    <!-- ===== DASHBOARD PANEL ===== -->
+                    <VBox fx:id="dashboardPanel" styleClass="content-area" visible="true" minHeight="0">
+                        <Label styleClass="section-title" text="Admin Dashboard" />
+                        <Label styleClass="section-subtitle" text="Overview of your farming platform" />
 
-                    <FlowPane fx:id="statCards" hgap="16" vgap="16" />
+                        <FlowPane fx:id="statCards" hgap="16" vgap="16" />
 
-                    <HBox spacing="20">
-                        <!-- Recent Activity -->
-                        <VBox styleClass="activity-card" spacing="10" HBox.hgrow="ALWAYS">
-                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Recent Activity" />
-                            <VBox fx:id="activityFeed" spacing="4" />
-                        </VBox>
-
-                        <!-- User Distribution PieChart -->
-                        <VBox styleClass="activity-card" spacing="10" minWidth="300">
-                            <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="User Distribution" />
-                            <PieChart fx:id="userChart" legendVisible="true" labelsVisible="true" prefHeight="220" />
-                        </VBox>
-                    </HBox>
-                </VBox>
-
-                <!-- ===== USERS PANEL ===== -->
-                <VBox fx:id="usersPanel" styleClass="content-area" visible="false">
-                    <Label styleClass="section-title" text="All Users" />
-                    <Label styleClass="section-subtitle" text="Admin, Monitor, and Investor accounts" />
-                    <TableView fx:id="usersTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Name" fx:id="userNameCol" prefWidth="160">
-                                <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Email" fx:id="userEmailCol" prefWidth="200">
-                                <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Role" fx:id="userRoleCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="role" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Created" fx:id="userCreatedCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== MONITORS PANEL ===== -->
-                <VBox fx:id="monitorsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Monitor Management" />
-
-                    <!-- Create Monitor Form -->
-                    <VBox styleClass="form-panel" spacing="12" maxWidth="500">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Create New Monitor" />
-                        <HBox spacing="12">
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="Full Name" />
-                                <TextField fx:id="monNameField" styleClass="input-field" promptText="Monitor name" />
+                        <HBox spacing="20">
+                            <!-- Recent Activity -->
+                            <VBox styleClass="activity-card" spacing="10" HBox.hgrow="ALWAYS">
+                                <Label styleClass="card-heading" text="Recent Activity" />
+                                <VBox fx:id="activityFeed" spacing="4" VBox.vgrow="ALWAYS" />
                             </VBox>
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="Email" />
-                                <TextField fx:id="monEmailField" styleClass="input-field" promptText="monitor@example.com" />
+
+                            <!-- User Distribution PieChart -->
+                            <VBox styleClass="activity-card" spacing="10" minWidth="300" maxWidth="360">
+                                <Label styleClass="card-heading" text="User Distribution" />
+                                <PieChart fx:id="userChart" legendVisible="true" labelsVisible="true" prefHeight="220" />
                             </VBox>
                         </HBox>
-                        <HBox spacing="12">
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="Password" />
-                                <PasswordField fx:id="monPassField" styleClass="input-field" promptText="Min 6 characters" />
-                            </VBox>
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="NID Number" />
-                                <TextField fx:id="monNidField" styleClass="input-field" promptText="National ID" />
-                            </VBox>
-                        </HBox>
-                        <HBox spacing="12">
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="Assigned Region" />
-                                <TextField fx:id="monRegionField" styleClass="input-field" promptText="e.g. North Region" />
-                            </VBox>
-                            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                                <Label styleClass="form-label" text="Verification Status" />
-                                <ComboBox fx:id="monStatusCombo" styleClass="combo-field" promptText="Select status" />
-                            </VBox>
-                        </HBox>
-                        <Label fx:id="monError" styleClass="error-label" managed="false" />
-                        <Label fx:id="monSuccess" styleClass="success-label" managed="false" />
-                        <Button styleClass="btn-primary" text="Create Monitor" onAction="#onCreateMonitor" maxWidth="200" />
                     </VBox>
 
-                    <!-- Monitors Table -->
-                    <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Existing Monitors" />
-                    <TableView fx:id="monitorsTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Name" fx:id="monNameCol" prefWidth="140">
-                                <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Email" fx:id="monEmailCol" prefWidth="180">
-                                <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Region" fx:id="monRegionCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="assignedRegion" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Status" fx:id="monStatusCol" prefWidth="100" />
-                            <TableColumn text="Action" fx:id="monActionCol" prefWidth="160" />
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== INVESTORS PANEL ===== -->
-                <VBox fx:id="investorsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Investors" />
-                    <TableView fx:id="investorsTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Name" fx:id="invNameCol" prefWidth="160">
-                                <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Email" fx:id="invEmailCol" prefWidth="200">
-                                <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Wallet" fx:id="invWalletCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="walletBalance" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Created" fx:id="invCreatedCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== FARMERS PANEL (READ-ONLY) ===== -->
-                <VBox fx:id="farmersPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Farmer Profiles" />
-                    <Label styleClass="section-subtitle" text="Read-only view — Admin can approve or reject profiles" />
-                    <TableView fx:id="farmersTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Name" fx:id="farmNameCol" prefWidth="140">
-                                <cellValueFactory><PropertyValueFactory property="fullName" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Contact" fx:id="farmContactCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="contactNumber" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Location" fx:id="farmLocationCol" prefWidth="140">
-                                <cellValueFactory><PropertyValueFactory property="exactLocation" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Status" fx:id="farmStatusCol" prefWidth="100" />
-                            <TableColumn text="Action" fx:id="farmActionCol" prefWidth="180" />
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== PROJECTS PANEL ===== -->
-                <VBox fx:id="projectsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="All Projects" />
-                    <TableView fx:id="projectsTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Project Name" fx:id="projNameCol" prefWidth="160">
-                                <cellValueFactory><PropertyValueFactory property="projectName" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Required" fx:id="projRequiredCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="investmentRequired" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Raised" fx:id="projRaisedCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="fundingRaised" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Risk" fx:id="projRiskCol" prefWidth="80" />
-                            <TableColumn text="Status" fx:id="projStatusCol" prefWidth="100" />
-                            <TableColumn text="Created" fx:id="projCreatedCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== INVESTMENTS PANEL ===== -->
-                <VBox fx:id="investmentsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="All Investments" />
-                    <TableView fx:id="investmentsTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Investment ID" fx:id="invIdCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Project" fx:id="invProjCol" prefWidth="140">
-                                <cellValueFactory><PropertyValueFactory property="projectId" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Amount" fx:id="invAmountCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Date" fx:id="invDateCol" prefWidth="120">
-                                <cellValueFactory><PropertyValueFactory property="investmentDate" /></cellValueFactory>
-                            </TableColumn>
-                            <TableColumn text="Status" fx:id="invStatusCol" prefWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="status" /></cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- ===== PROJECT INFO PANEL ===== -->
-                <VBox fx:id="projectInfoPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Project Info" />
-                    <Label styleClass="section-subtitle" text="All projects with monitor updates, investor info, and profit calculations" />
-                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-                        <FlowPane fx:id="projectInfoCards" hgap="20" vgap="20" />
-                    </ScrollPane>
-                </VBox>
-
-                <!-- ===== APPROVALS PANEL ===== -->
-                <VBox fx:id="approvalsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Pending Approvals" />
-
-                    <!-- Pending Farmer Profiles -->
-                    <VBox spacing="10">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Farmer Profiles Pending Verification" />
-                        <TableView fx:id="pendingFarmersTable" VBox.vgrow="ALWAYS">
+                    <!-- ===== USERS PANEL ===== -->
+                    <VBox fx:id="usersPanel" styleClass="content-area" visible="false" minHeight="0">
+                        <Label styleClass="section-title" text="All Users" />
+                        <Label styleClass="section-subtitle" text="Admin, Monitor, and Investor accounts" />
+                        <TableView fx:id="usersTable" VBox.vgrow="ALWAYS" minWidth="0">
                             <columns>
-                                <TableColumn text="Name" fx:id="pfNameCol" prefWidth="140">
-                                    <cellValueFactory><PropertyValueFactory property="fullName" /></cellValueFactory>
+                                <TableColumn text="Name" fx:id="userNameCol" prefWidth="180" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Monitor" fx:id="pfMonitorCol" prefWidth="120">
-                                    <cellValueFactory><PropertyValueFactory property="monitorId" /></cellValueFactory>
+                                <TableColumn text="Email" fx:id="userEmailCol" prefWidth="220" minWidth="120">
+                                    <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Created" fx:id="pfCreatedCol" prefWidth="100">
+                                <TableColumn text="Role" fx:id="userRoleCol" prefWidth="120" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="role" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Created" fx:id="userCreatedCol" prefWidth="140" minWidth="100">
                                     <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Action" fx:id="pfActionCol" prefWidth="200" />
                             </columns>
                         </TableView>
                     </VBox>
 
-                    <!-- Pending Projects -->
-                    <VBox spacing="10">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Projects Pending Approval" />
-                        <TableView fx:id="pendingProjectsTable" VBox.vgrow="ALWAYS">
+                    <!-- ===== MONITORS PANEL ===== -->
+                    <VBox fx:id="monitorsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Monitor Management" />
+
+                        <!-- Create Monitor Form -->
+                        <VBox styleClass="form-panel" spacing="12" maxWidth="560">
+                            <Label styleClass="card-heading" text="Create New Monitor" />
+                            <HBox spacing="12">
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="Full Name" />
+                                    <TextField fx:id="monNameField" styleClass="input-field" promptText="Monitor name" />
+                                </VBox>
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="Email" />
+                                    <TextField fx:id="monEmailField" styleClass="input-field" promptText="monitor@example.com" />
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="12">
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="Password" />
+                                    <PasswordField fx:id="monPassField" styleClass="input-field" promptText="Min 6 characters" />
+                                </VBox>
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="NID Number" />
+                                    <TextField fx:id="monNidField" styleClass="input-field" promptText="National ID" />
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="12">
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="Assigned Region" />
+                                    <TextField fx:id="monRegionField" styleClass="input-field" promptText="e.g. North Region" />
+                                </VBox>
+                                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                    <Label styleClass="form-label" text="Verification Status" />
+                                    <ComboBox fx:id="monStatusCombo" styleClass="combo-field" promptText="Select status" />
+                                </VBox>
+                            </HBox>
+                            <Label fx:id="monError" styleClass="error-label" managed="false" />
+                            <Label fx:id="monSuccess" styleClass="success-label" managed="false" />
+                            <Button styleClass="btn-primary" text="Create Monitor" onAction="#onCreateMonitor" maxWidth="200" />
+                        </VBox>
+
+                        <!-- Monitors Table -->
+                        <Label styleClass="card-heading" text="Existing Monitors" />
+                        <TableView fx:id="monitorsTable" VBox.vgrow="ALWAYS" minWidth="0">
                             <columns>
-                                <TableColumn text="Project" fx:id="ppNameCol" prefWidth="160">
+                                <TableColumn text="Name" fx:id="monNameCol" prefWidth="160" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Email" fx:id="monEmailCol" prefWidth="200" minWidth="120">
+                                    <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Region" fx:id="monRegionCol" prefWidth="130" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="assignedRegion" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Status" fx:id="monStatusCol" prefWidth="110" minWidth="80" />
+                                <TableColumn text="Action" fx:id="monActionCol" prefWidth="170" minWidth="120" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- ===== INVESTORS PANEL ===== -->
+                    <VBox fx:id="investorsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Investors" />
+                        <TableView fx:id="investorsTable" VBox.vgrow="ALWAYS" minWidth="0">
+                            <columns>
+                                <TableColumn text="Name" fx:id="invNameCol" prefWidth="180" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Email" fx:id="invEmailCol" prefWidth="220" minWidth="120">
+                                    <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Wallet" fx:id="invWalletCol" prefWidth="130" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="walletBalance" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Created" fx:id="invCreatedCol" prefWidth="140" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- ===== FARMERS PANEL (READ-ONLY) ===== -->
+                    <VBox fx:id="farmersPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Farmer Profiles" />
+                        <Label styleClass="section-subtitle" text="Read-only view — Admin can approve or reject profiles" />
+                        <TableView fx:id="farmersTable" VBox.vgrow="ALWAYS" minWidth="0">
+                            <columns>
+                                <TableColumn text="Name" fx:id="farmNameCol" prefWidth="160" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="fullName" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Contact" fx:id="farmContactCol" prefWidth="130" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="contactNumber" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Location" fx:id="farmLocationCol" prefWidth="160" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="exactLocation" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Status" fx:id="farmStatusCol" prefWidth="110" minWidth="80" />
+                                <TableColumn text="Action" fx:id="farmActionCol" prefWidth="190" minWidth="140" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- ===== PROJECTS PANEL ===== -->
+                    <VBox fx:id="projectsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="All Projects" />
+                        <TableView fx:id="projectsTable" VBox.vgrow="ALWAYS" minWidth="0">
+                            <columns>
+                                <TableColumn text="Project Name" fx:id="projNameCol" prefWidth="170" minWidth="100">
                                     <cellValueFactory><PropertyValueFactory property="projectName" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Required" fx:id="ppRequiredCol" prefWidth="100">
+                                <TableColumn text="Required" fx:id="projRequiredCol" prefWidth="110" minWidth="80">
                                     <cellValueFactory><PropertyValueFactory property="investmentRequired" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Risk" fx:id="ppRiskCol" prefWidth="80" />
-                                <TableColumn text="Monitor" fx:id="ppMonitorCol" prefWidth="120">
-                                    <cellValueFactory><PropertyValueFactory property="monitorId" /></cellValueFactory>
+                                <TableColumn text="Raised" fx:id="projRaisedCol" prefWidth="110" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="fundingRaised" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Action" fx:id="ppActionCol" prefWidth="200" />
+                                <TableColumn text="Risk" fx:id="projRiskCol" prefWidth="90" minWidth="70" />
+                                <TableColumn text="Status" fx:id="projStatusCol" prefWidth="110" minWidth="80" />
+                                <TableColumn text="Created" fx:id="projCreatedCol" prefWidth="110" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
+                                </TableColumn>
                             </columns>
                         </TableView>
                     </VBox>
 
-                    <!-- Pending Field Updates -->
-                    <VBox spacing="10">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Field Updates Pending Approval" />
-                        <TableView fx:id="pendingFieldUpdatesTable" VBox.vgrow="ALWAYS" prefHeight="150">
+                    <!-- ===== INVESTMENTS PANEL ===== -->
+                    <VBox fx:id="investmentsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="All Investments" />
+                        <TableView fx:id="investmentsTable" VBox.vgrow="ALWAYS" minWidth="0">
                             <columns>
-                                <TableColumn text="Project" fx:id="pfuProjectCol" prefWidth="140" />
-                                <TableColumn text="Monitor" fx:id="pfuMonitorCol" prefWidth="120" />
-                                <TableColumn text="Date" prefWidth="100">
-                                    <cellValueFactory><PropertyValueFactory property="updateDate" /></cellValueFactory>
+                                <TableColumn text="Investment ID" fx:id="invIdCol" prefWidth="120" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Text" prefWidth="200">
-                                    <cellValueFactory><PropertyValueFactory property="updateText" /></cellValueFactory>
+                                <TableColumn text="Project" fx:id="invProjCol" prefWidth="160" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="projectId" /></cellValueFactory>
                                 </TableColumn>
-                                <TableColumn text="Action" fx:id="pfuActionCol" prefWidth="200" />
+                                <TableColumn text="Amount" fx:id="invAmountCol" prefWidth="120" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Date" fx:id="invDateCol" prefWidth="140" minWidth="100">
+                                    <cellValueFactory><PropertyValueFactory property="investmentDate" /></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Status" fx:id="invStatusCol" prefWidth="120" minWidth="80">
+                                    <cellValueFactory><PropertyValueFactory property="status" /></cellValueFactory>
+                                </TableColumn>
                             </columns>
                         </TableView>
                     </VBox>
 
-                    <!-- Pending Loss Recoveries -->
-                    <VBox spacing="10">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Loss Recovery Plans Pending Review" />
-                        <TableView fx:id="pendingLossTable" VBox.vgrow="ALWAYS" prefHeight="150">
-                            <columns>
-                                <TableColumn text="Project" fx:id="plProjectCol" prefWidth="140" />
-                                <TableColumn text="Monitor" fx:id="plMonitorCol" prefWidth="120" />
-                                <TableColumn text="Loss Description" prefWidth="180">
-                                    <cellValueFactory><PropertyValueFactory property="lossDescription" /></cellValueFactory>
-                                </TableColumn>
-                                <TableColumn text="Recovery Amount" prefWidth="120">
-                                    <cellValueFactory><PropertyValueFactory property="recoveryAmount" /></cellValueFactory>
-                                </TableColumn>
-                                <TableColumn text="Action" fx:id="plActionCol" prefWidth="200" />
-                            </columns>
-                        </TableView>
+                    <!-- ===== PROJECT INFO PANEL ===== -->
+                    <VBox fx:id="projectInfoPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Project Info" />
+                        <Label styleClass="section-subtitle" text="All projects with monitor updates, investor info, and profit calculations" />
+                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" hbarPolicy="NEVER">
+                            <FlowPane fx:id="projectInfoCards" hgap="20" vgap="20" />
+                        </ScrollPane>
                     </VBox>
-                </VBox>
 
-                <!-- ===== REPORTS PANEL ===== -->
-                <VBox fx:id="reportsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Reports" />
-                    <Label styleClass="section-subtitle" text="Platform summary and insights" />
-                    <VBox fx:id="reportsContent" spacing="10" />
-                    <HBox spacing="12">
-                        <Button styleClass="btn-primary" text="Export Report (CSV)" onAction="#onExportCsv" />
-                        <Button styleClass="btn-primary" text="Export Report (TXT)" onAction="#onExportTxt" />
-                    </HBox>
-                    <Label fx:id="reportExportMsg" styleClass="success-label" managed="false" />
-                </VBox>
+                    <!-- ===== APPROVALS PANEL ===== -->
+                    <VBox fx:id="approvalsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Pending Approvals" />
 
-                <!-- ===== SETTINGS PANEL ===== -->
-                <VBox fx:id="settingsPanel" styleClass="content-area" spacing="20">
-                    <Label styleClass="section-title" text="Settings" />
-                    <Label styleClass="section-subtitle" text="Platform configuration" />
-                    <VBox styleClass="form-panel" spacing="14" maxWidth="400">
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#1b5e20;" text="Admin Profile" />
-                        <Label styleClass="form-label" text="Name" />
-                        <TextField fx:id="settingsNameField" styleClass="input-field" />
-                        <Label styleClass="form-label" text="Email" />
-                        <TextField fx:id="settingsEmailField" styleClass="input-field" />
-                        <Button styleClass="btn-primary" text="Save Changes" onAction="#onSaveSettings" maxWidth="200" />
-                        <Label fx:id="settingsMsg" styleClass="success-label" managed="false" />
+                        <!-- Pending Farmer Profiles -->
+                        <VBox styleClass="approval-section" spacing="10">
+                            <Label styleClass="card-heading" text="Farmer Profiles Pending Verification" />
+                            <TableView fx:id="pendingFarmersTable" VBox.vgrow="ALWAYS" minWidth="0">
+                                <columns>
+                                    <TableColumn text="Name" fx:id="pfNameCol" prefWidth="160" minWidth="100">
+                                        <cellValueFactory><PropertyValueFactory property="fullName" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Monitor" fx:id="pfMonitorCol" prefWidth="130" minWidth="80">
+                                        <cellValueFactory><PropertyValueFactory property="monitorId" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Created" fx:id="pfCreatedCol" prefWidth="120" minWidth="80">
+                                        <cellValueFactory><PropertyValueFactory property="createdAt" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Action" fx:id="pfActionCol" prefWidth="210" minWidth="150" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Pending Projects -->
+                        <VBox styleClass="approval-section" spacing="10">
+                            <Label styleClass="card-heading" text="Projects Pending Approval" />
+                            <TableView fx:id="pendingProjectsTable" VBox.vgrow="ALWAYS" minWidth="0">
+                                <columns>
+                                    <TableColumn text="Project" fx:id="ppNameCol" prefWidth="170" minWidth="100">
+                                        <cellValueFactory><PropertyValueFactory property="projectName" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Required" fx:id="ppRequiredCol" prefWidth="110" minWidth="80">
+                                        <cellValueFactory><PropertyValueFactory property="investmentRequired" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Risk" fx:id="ppRiskCol" prefWidth="90" minWidth="70" />
+                                    <TableColumn text="Monitor" fx:id="ppMonitorCol" prefWidth="130" minWidth="80">
+                                        <cellValueFactory><PropertyValueFactory property="monitorId" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Action" fx:id="ppActionCol" prefWidth="210" minWidth="150" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Pending Field Updates -->
+                        <VBox styleClass="approval-section" spacing="10">
+                            <Label styleClass="card-heading" text="Field Updates Pending Approval" />
+                            <TableView fx:id="pendingFieldUpdatesTable" VBox.vgrow="ALWAYS" prefHeight="150" minWidth="0">
+                                <columns>
+                                    <TableColumn text="Project" fx:id="pfuProjectCol" prefWidth="150" minWidth="100" />
+                                    <TableColumn text="Monitor" fx:id="pfuMonitorCol" prefWidth="130" minWidth="80" />
+                                    <TableColumn text="Date" prefWidth="110" minWidth="80">
+                                        <cellValueFactory><PropertyValueFactory property="updateDate" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Text" prefWidth="220" minWidth="120">
+                                        <cellValueFactory><PropertyValueFactory property="updateText" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Action" fx:id="pfuActionCol" prefWidth="210" minWidth="150" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Pending Loss Recoveries -->
+                        <VBox styleClass="approval-section" spacing="10">
+                            <Label styleClass="card-heading" text="Loss Recovery Plans Pending Review" />
+                            <TableView fx:id="pendingLossTable" VBox.vgrow="ALWAYS" prefHeight="150" minWidth="0">
+                                <columns>
+                                    <TableColumn text="Project" fx:id="plProjectCol" prefWidth="150" minWidth="100" />
+                                    <TableColumn text="Monitor" fx:id="plMonitorCol" prefWidth="130" minWidth="80" />
+                                    <TableColumn text="Loss Description" prefWidth="200" minWidth="120">
+                                        <cellValueFactory><PropertyValueFactory property="lossDescription" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Recovery Amount" prefWidth="130" minWidth="90">
+                                        <cellValueFactory><PropertyValueFactory property="recoveryAmount" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn text="Action" fx:id="plActionCol" prefWidth="210" minWidth="150" />
+                                </columns>
+                            </TableView>
+                        </VBox>
                     </VBox>
-                </VBox>
-            </StackPane>
+
+                    <!-- ===== REPORTS PANEL ===== -->
+                    <VBox fx:id="reportsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Reports" />
+                        <Label styleClass="section-subtitle" text="Platform summary and insights" />
+                        <VBox fx:id="reportsContent" styleClass="reports-card" spacing="10" />
+                        <Label fx:id="reportExportMsg" styleClass="success-label" managed="false" />
+                    </VBox>
+
+                    <!-- ===== SETTINGS PANEL ===== -->
+                    <VBox fx:id="settingsPanel" styleClass="content-area" spacing="20" minHeight="0">
+                        <Label styleClass="section-title" text="Settings" />
+                        <Label styleClass="section-subtitle" text="Platform configuration" />
+                        <VBox styleClass="form-panel" spacing="14" maxWidth="440">
+                            <Label styleClass="card-heading" text="Admin Profile" />
+                            <Label styleClass="form-label" text="Name" />
+                            <TextField fx:id="settingsNameField" styleClass="input-field" />
+                            <Label styleClass="form-label" text="Email" />
+                            <TextField fx:id="settingsEmailField" styleClass="input-field" />
+                            <Button styleClass="btn-primary" text="Save Changes" onAction="#onSaveSettings" maxWidth="200" />
+                            <Label fx:id="settingsMsg" styleClass="success-label" managed="false" />
+                        </VBox>
+                    </VBox>
+                </StackPane>
         </ScrollPane>
     </center>
 </BorderPane>

@@ -81,6 +81,12 @@ public class SceneManager {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle(route.getTitle());
+            if (primaryStage.getWidth() < 200 || primaryStage.getHeight() < 200) {
+                primaryStage.setMinWidth(1100);
+                primaryStage.setMinHeight(700);
+                primaryStage.setWidth(1280);
+                primaryStage.setHeight(780);
+            }
             currentRoute = route;
             primaryStage.show();
             return true;

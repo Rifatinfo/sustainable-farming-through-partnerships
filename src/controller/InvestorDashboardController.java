@@ -370,7 +370,6 @@ public class InvestorDashboardController extends BaseController {
     private void loadFieldUpdatesForProject(String projectId) {
         pdFieldUpdatesBox.getChildren().clear();
         List<FieldUpdate> updates = fieldUpdateRepo.findByProjectId(projectId).stream()
-                .filter(u -> u.getApprovalStatus() == ApprovalStatus.APPROVED)
                 .sorted(Comparator.comparing(FieldUpdate::getUpdateDate, Comparator.nullsLast(String::compareTo)).reversed())
                 .collect(Collectors.toList());
 

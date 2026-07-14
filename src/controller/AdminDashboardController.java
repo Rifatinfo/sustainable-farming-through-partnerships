@@ -2,11 +2,16 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -55,6 +60,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -559,24 +565,32 @@ public class AdminDashboardController extends BaseController {
         updatesTitle.getStyleClass().add("card-subtitle");
 
         VBox updatesBox = new VBox(6);
-        List<FieldUpdate> updates = fieldUpdateRepo.findByProjectId(p.getId());
-        List<FieldUpdate> approvedUpdates = updates.stream()
-                .filter(u -> u.getApprovalStatus() == ApprovalStatus.APPROVED)
+        List<FieldUpdate> updates = fieldUpdateRepo.findByProjectId(p.getId()).stream()
+                .sorted(Comparator.comparing(FieldUpdate::getUpdateDate, Comparator.nullsLast(String::compareTo)).reversed())
                 .collect(Collectors.toList());
-        if (approvedUpdates.isEmpty()) {
-            updatesBox.getChildren().add(new Label("No approved updates yet."));
+        if (updates.isEmpty()) {
+            updatesBox.getChildren().add(new Label("No field updates yet."));
         } else {
-            for (FieldUpdate fu : approvedUpdates) {
-                VBox updateItem = new VBox(2);
+            for (FieldUpdate fu : updates) {
+                VBox updateItem = new VBox(3);
+                updateItem.setStyle("-fx-background-color:#f9faf9; -fx-padding:8; -fx-background-radius:6;");
+
+                HBox updateTopRow = new HBox(8);
                 Label updateText = new Label(fu.getUpdateDate() + ": " + fu.getUpdateText());
                 updateText.setStyle("-fx-font-size:12; -fx-wrap-text:true;");
                 updateText.setWrapText(true);
-                updateItem.getChildren().add(updateText);
+
+                Label approvalBadge = new Label(fu.getApprovalStatus().name());
+                approvalBadge.getStyleClass().addAll("status-badge", "status-" + fu.getApprovalStatus().name().toLowerCase());
+
+                updateTopRow.getChildren().addAll(updateText, approvalBadge);
+                updateItem.getChildren().add(updateTopRow);
 
                 if (fu.getProgressStatus() != null) {
-                    Label progressLbl = new Label("Status: " + (fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed"));
-                    progressLbl.setStyle("-fx-font-size:11; -fx-text-fill:#666;");
-                    updateItem.getChildren().add(progressLbl);
+                    Label progressBadge = new Label(fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed");
+                    String progressCls = fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "status-inprogress" : "status-completed";
+                    progressBadge.getStyleClass().addAll("status-badge", progressCls);
+                    updateItem.getChildren().add(progressBadge);
                 }
 
                 if (fu.getImagePath() != null && !fu.getImagePath().isEmpty()) {
@@ -595,11 +609,196 @@ public class AdminDashboardController extends BaseController {
             }
         }
 
+        Separator sep4 = new Separator();
+
+        Button seeDetailsBtn = new Button("See Details");
+        seeDetailsBtn.getStyleClass().addAll("btn", "btn-primary");
+        seeDetailsBtn.setOnAction(e -> showProjectDetailsPopup(p));
+
         card.getChildren().addAll(topRow, farmerLbl, monitorLbl, fundingLbl, budgetLbl,
                 sep1, investorTitle, investorBox,
                 sep2, profitTitle, profitBox,
-                sep3, updatesTitle, updatesBox);
+                sep3, updatesTitle, updatesBox,
+                sep4, seeDetailsBtn);
         return card;
+    }
+
+    private void showProjectDetailsPopup(Project p) {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Project Details - " + p.getProjectName());
+        dialog.setHeaderText(null);
+
+        DialogPane dialogPane = new DialogPane();
+        dialogPane.getButtonTypes().addAll(javafx.scene.control.ButtonType.CLOSE);
+        dialogPane.setPrefWidth(650);
+        dialogPane.setPrefHeight(700);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color:transparent;");
+
+        VBox content = new VBox(12);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color:white;");
+
+        Label title = new Label(p.getProjectName());
+        title.setStyle("-fx-font-size:20; -fx-font-weight:bold; -fx-text-fill:#1b5e20;");
+
+        Label statusBadge = new Label(p.getStatus().name());
+        statusBadge.getStyleClass().addAll("status-badge", "status-" + p.getStatus().name().toLowerCase());
+
+        Label riskBadge = new Label(p.getRiskLevel().name());
+        riskBadge.getStyleClass().addAll("status-badge", "status-" + p.getRiskLevel().name().toLowerCase());
+
+        HBox topRow = new HBox(10, title, statusBadge, riskBadge);
+        topRow.setAlignment(Pos.CENTER_LEFT);
+        content.getChildren().add(topRow);
+
+        Separator sep1 = new Separator();
+        content.getChildren().add(sep1);
+
+        Label descTitle = new Label("Description");
+        descTitle.setStyle("-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#333;");
+        Label descText = new Label(p.getDescription() != null ? p.getDescription() : "No description available.");
+        descText.setWrapText(true);
+        descText.setStyle("-fx-font-size:13; -fx-text-fill:#555;");
+        content.getChildren().addAll(descTitle, descText);
+
+        Separator sep2 = new Separator();
+        content.getChildren().add(sep2);
+
+        String farmerName = farmerRepo.findById(p.getFarmerId())
+                .map(FarmerProfile::getFullName).orElse("Unknown");
+        String farmerLocation = farmerRepo.findById(p.getFarmerId())
+                .map(FarmerProfile::getExactLocation).orElse("Unknown");
+        String monitorName = userRepo.findById(p.getMonitorId())
+                .map(User::getName).orElse("Unknown");
+
+        Label infoTitle = new Label("Project Information");
+        infoTitle.setStyle("-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#333;");
+
+        VBox infoBox = new VBox(6,
+                createDetailRow("Farmer", farmerName),
+                createDetailRow("Location", farmerLocation),
+                createDetailRow("Monitor", monitorName),
+                createDetailRow("Start Date", p.getStartDate()),
+                createDetailRow("End Date", p.getEndDate()),
+                createDetailRow("Budget Limit", "$" + String.format("%,.0f", p.getBudgetLimit())),
+                createDetailRow("Investment Required", "$" + String.format("%,.0f", p.getInvestmentRequired())),
+                createDetailRow("Funding Raised", "$" + String.format("%,.0f", p.getFundingRaised())),
+                createDetailRow("Funding Progress", String.format("%.0f%%", p.getFundingPercentage())),
+                createDetailRow("Created At", p.getCreatedAt())
+        );
+        content.getChildren().addAll(infoTitle, infoBox);
+
+        Separator sep3 = new Separator();
+        content.getChildren().add(sep3);
+
+        Label investorTitle = new Label("Investor Information");
+        investorTitle.setStyle("-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#333;");
+        content.getChildren().add(investorTitle);
+
+        List<Investment> investments = investmentRepo.findByProjectId(p.getId());
+        if (investments.isEmpty()) {
+            content.getChildren().add(new Label("No investments yet."));
+        } else {
+            double totalInvested = 0;
+            for (Investment inv : investments) {
+                String invName = userRepo.findById(inv.getInvestorId())
+                        .map(User::getName).orElse("Unknown");
+                Label invLbl = new Label(String.format("  %s: $%,.2f (%s)", invName, inv.getAmount(), inv.getStatus()));
+                invLbl.setStyle("-fx-font-size:12;");
+                content.getChildren().add(invLbl);
+                totalInvested += inv.getAmount();
+            }
+            Label totalLbl = new Label("Total Invested: $" + String.format("%,.2f", totalInvested));
+            totalLbl.setStyle("-fx-font-size:13; -fx-font-weight:bold;");
+            content.getChildren().add(totalLbl);
+
+            Separator sep4 = new Separator();
+            content.getChildren().add(sep4);
+
+            Label profitTitle = new Label("Profit Distribution");
+            profitTitle.setStyle("-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#333;");
+            double adminShare = totalInvested * 0.50;
+            double investorShare = totalInvested * 0.30;
+            double farmerShare = totalInvested * 0.20;
+            VBox profitBox = new VBox(4,
+                    new Label(String.format("  Admin (50%%): $%,.2f", adminShare)),
+                    new Label(String.format("  Investor (30%%): $%,.2f", investorShare)),
+                    new Label(String.format("  Farmer (20%%): $%,.2f", farmerShare))
+            );
+            profitBox.getChildren().forEach(n -> n.setStyle("-fx-font-size:12;"));
+            content.getChildren().addAll(profitTitle, profitBox);
+        }
+
+        Separator sep5 = new Separator();
+        content.getChildren().add(sep5);
+
+        Label updatesTitle = new Label("Monitor Updates");
+        updatesTitle.setStyle("-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#333;");
+        content.getChildren().add(updatesTitle);
+
+        List<FieldUpdate> allUpdates = fieldUpdateRepo.findByProjectId(p.getId()).stream()
+                .sorted(Comparator.comparing(FieldUpdate::getUpdateDate, Comparator.nullsLast(String::compareTo)).reversed())
+                .collect(Collectors.toList());
+        if (allUpdates.isEmpty()) {
+            content.getChildren().add(new Label("No field updates yet."));
+        } else {
+            for (FieldUpdate fu : allUpdates) {
+                VBox updateItem = new VBox(4);
+                updateItem.setStyle("-fx-background-color:#f9faf9; -fx-padding:10; -fx-background-radius:6;");
+
+                HBox updateTopRow = new HBox(8);
+                Label dateLbl = new Label(fu.getUpdateDate());
+                dateLbl.setStyle("-fx-font-size:12; -fx-font-weight:bold; -fx-text-fill:#1b5e20;");
+
+                Label approvalBadge = new Label(fu.getApprovalStatus().name());
+                approvalBadge.getStyleClass().addAll("status-badge", "status-" + fu.getApprovalStatus().name().toLowerCase());
+
+                updateTopRow.getChildren().addAll(dateLbl, approvalBadge);
+                updateItem.getChildren().add(updateTopRow);
+
+                Label updateText = new Label(fu.getUpdateText());
+                updateText.setWrapText(true);
+                updateText.setStyle("-fx-font-size:13; -fx-text-fill:#444;");
+                updateItem.getChildren().add(updateText);
+
+                if (fu.getProgressStatus() != null) {
+                    Label progressBadge = new Label(fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "In Progress" : "Completed");
+                    String progressCls = fu.getProgressStatus() == ProgressStatus.IN_PROGRESS ? "status-inprogress" : "status-completed";
+                    progressBadge.getStyleClass().addAll("status-badge", progressCls);
+                    updateItem.getChildren().add(progressBadge);
+                }
+
+                if (fu.getImagePath() != null && !fu.getImagePath().isEmpty()) {
+                    try {
+                        File imgFile = new File(fu.getImagePath());
+                        if (imgFile.exists()) {
+                            ImageView iv = new ImageView(new Image(imgFile.toURI().toString()));
+                            iv.setFitWidth(200);
+                            iv.setFitHeight(150);
+                            iv.setPreserveRatio(true);
+                            updateItem.getChildren().add(iv);
+                        }
+                    } catch (Exception ignored) {}
+                }
+                content.getChildren().add(updateItem);
+            }
+        }
+
+        scrollPane.setContent(content);
+        dialogPane.setContent(scrollPane);
+        dialog.setDialogPane(dialogPane);
+        dialog.showAndWait();
+    }
+
+    private VBox createDetailRow(String label, String value) {
+        Label lbl = new Label(label);
+        lbl.setStyle("-fx-font-size:12; -fx-font-weight:600; -fx-text-fill:#666;");
+        Label val = new Label(value != null ? value : "N/A");
+        val.setStyle("-fx-font-size:12; -fx-text-fill:#333;");
+        return new VBox(2, lbl, val);
     }
 
     // ===== APPROVALS =====
