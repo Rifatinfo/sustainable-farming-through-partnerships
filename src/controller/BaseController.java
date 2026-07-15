@@ -2,9 +2,11 @@ package controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.VBox;
 import util.Route;
 import util.SceneManager;
 
+import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseController {
@@ -13,6 +15,34 @@ public abstract class BaseController {
 
     public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
+    }
+
+    public String getDashboardTitle() {
+        return "";
+    }
+
+    protected void setupTableColumns() {
+    }
+
+    protected void refreshAllData() {
+    }
+
+    protected void showPanelWithLifecycle(VBox panel, List<VBox> allPanels,
+                                           javafx.scene.control.Button activeBtn,
+                                           List<javafx.scene.control.Button> navBtns) {
+        for (VBox p : allPanels) {
+            p.setVisible(false);
+        }
+        for (javafx.scene.control.Button b : navBtns) {
+            b.getStyleClass().remove("nav-btn-active");
+        }
+        panel.setVisible(true);
+        activeBtn.getStyleClass().add("nav-btn-active");
+        refreshPanel(panel);
+    }
+
+    protected void refreshPanel(VBox panel) {
+        refreshAllData();
     }
 
     protected void showError(String title, String message) {

@@ -23,20 +23,24 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MonitorDashboardController" stylesheets="@monitor_dashboard.css">
     <left>
-        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar">
             <VBox styleClass="sidebar-header" spacing="2">
                 <Label styleClass="logo-text" text="&#127793; FarmConnect" />
                 <Label styleClass="role-label" text="Monitor Panel" />
             </VBox>
-            <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" onAction="#showDashboard" />
-            <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  My Farmers" onAction="#showMyFarmers" />
-            <Button styleClass="nav-btn" fx:id="navCreateFarmer" text="&#10133;  Create Farmer Profile" onAction="#showCreateFarmer" />
-            <Button styleClass="nav-btn" fx:id="navCreateProject" text="&#128200;  Create Project" onAction="#showCreateProject" />
-            <Button styleClass="nav-btn" fx:id="navFieldUpdates" text="&#128196;  Field Updates" onAction="#showFieldUpdates" />
-            <Button styleClass="nav-btn" fx:id="navNotifications" text="&#128276;  Notifications" onAction="#showNotifications" />
-            <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" onAction="#showSettings" />
+            <VBox styleClass="nav-menu" spacing="2">
+                <Button styleClass="nav-btn,nav-btn-active" fx:id="navDashboard" text="&#9632;  Dashboard" maxWidth="1.7976931348623157E308" onAction="#showDashboard" />
+                <Button styleClass="nav-btn" fx:id="navFarmers" text="&#127793;  My Farmers" maxWidth="1.7976931348623157E308" onAction="#showMyFarmers" />
+                <Button styleClass="nav-btn" fx:id="navCreateFarmer" text="&#10133;  Create Farmer Profile" maxWidth="1.7976931348623157E308" onAction="#showCreateFarmer" />
+                <Button styleClass="nav-btn" fx:id="navCreateProject" text="&#128200;  Create Project" maxWidth="1.7976931348623157E308" onAction="#showCreateProject" />
+                <Button styleClass="nav-btn" fx:id="navFieldUpdates" text="&#128196;  Field Updates" maxWidth="1.7976931348623157E308" onAction="#showFieldUpdates" />
+                <Button styleClass="nav-btn" fx:id="navNotifications" text="&#128276;  Notifications" maxWidth="1.7976931348623157E308" onAction="#showNotifications" />
+                <Button styleClass="nav-btn" fx:id="navSettings" text="&#9881;  Settings" maxWidth="1.7976931348623157E308" onAction="#showSettings" />
+            </VBox>
             <Region VBox.vgrow="ALWAYS" />
-            <Button styleClass="nav-btn-logout" text="&#128682;  Logout" onAction="#onLogout" />
+            <VBox styleClass="nav-menu" spacing="2">
+                <Button styleClass="nav-btn-logout" text="&#128682;  Logout" maxWidth="1.7976931348623157E308" onAction="#onLogout" />
+            </VBox>
         </VBox>
     </left>
 

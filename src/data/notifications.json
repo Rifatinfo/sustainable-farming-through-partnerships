@@ -536,7 +536,7 @@
     "recipientRole": "MONITOR",
     "message": "New investment of $20000.0 in project \u0027The latest solid way\u0027",
     "type": "INFO",
-    "isRead": false,
+    "isRead": true,
     "createdAt": "2026-07-10"
   },
   {

@@ -64,6 +64,8 @@ public abstract class User implements Serializable {
         return getClass().getSimpleName() + "{id='" + id + "', name='" + name + "', email='" + email + "', role=" + role + "}";
     }
 
+    public abstract String getRoleDisplayName();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

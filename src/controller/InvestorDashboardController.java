@@ -139,6 +139,27 @@ public class InvestorDashboardController extends BaseController {
         }
     }
 
+    // ===== ABSTRACT IMPLEMENTATIONS =====
+
+    @Override
+    public String getDashboardTitle() {
+        return "Investor Dashboard";
+    }
+
+    @Override
+    protected void setupTableColumns() {
+        setupInvestmentsProjectColumn();
+        setupInvestmentStatusColumn();
+        setupProfitProjectColumn();
+        setupProfitStatusColumn();
+        setupNotificationReadColumn();
+    }
+
+    @Override
+    protected void refreshAllData() {
+        refreshDashboard();
+    }
+
     // ===== NAVIGATION =====
 
     private void showPanel(VBox panel, Button activeBtn) {
@@ -194,7 +215,8 @@ public class InvestorDashboardController extends BaseController {
     @FXML private void showNotifications() { showPanel(notificationsPanel, navNotifications); }
     @FXML private void showSettings() { showPanel(settingsPanel, navSettings); }
 
-    private void refreshPanel(VBox panel) {
+    @Override
+    protected void refreshPanel(VBox panel) {
         if (panel == dashboardPanel) refreshDashboard();
         else if (panel == browseProjectsPanel) refreshBrowseProjects();
         else if (panel == myInvestmentsPanel) refreshInvestments();

@@ -24,13 +24,28 @@ public class Monitor extends User {
     }
 
     public String getNidNumber() { return nidNumber; }
-    public void setNidNumber(String nidNumber) { this.nidNumber = nidNumber; }
+    public void setNidNumber(String nidNumber) {
+        if (nidNumber == null || nidNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("NID number cannot be empty");
+        }
+        this.nidNumber = nidNumber;
+    }
 
     public String getAssignedRegion() { return assignedRegion; }
-    public void setAssignedRegion(String assignedRegion) { this.assignedRegion = assignedRegion; }
+    public void setAssignedRegion(String assignedRegion) {
+        if (assignedRegion == null || assignedRegion.trim().isEmpty()) {
+            throw new IllegalArgumentException("Assigned region cannot be empty");
+        }
+        this.assignedRegion = assignedRegion;
+    }
 
     public VerificationStatus getVerificationStatus() { return verificationStatus; }
     public void setVerificationStatus(VerificationStatus verificationStatus) { this.verificationStatus = verificationStatus; }
+
+    @Override
+    public String getRoleDisplayName() {
+        return "Monitor Panel";
+    }
 
     @Override
     public String toString() {
