@@ -144,6 +144,19 @@ public class MonitorDashboardController extends BaseController {
         setupFarmerCombo(cpFarmerCombo);
         setupFarmerCombo(fuFarmerCombo);
         setupProjectCombo();
+        setupTableColumns();
+        showDashboard();
+    }
+
+    // ===== ABSTRACT IMPLEMENTATIONS =====
+
+    @Override
+    public String getDashboardTitle() {
+        return "Monitor Dashboard";
+    }
+
+    @Override
+    protected void setupTableColumns() {
         setupFarmerStatusColumn();
         setupFarmerActionColumn();
         setupProjectsRiskColumn();
@@ -154,7 +167,11 @@ public class MonitorDashboardController extends BaseController {
         setupFieldUpdatesProjColumn();
         setupFieldUpdatesProgressColumn();
         setupNotificationsReadColumn();
-        showDashboard();
+    }
+
+    @Override
+    protected void refreshAllData() {
+        refreshDashboard();
     }
 
     // ===== NAVIGATION =====
@@ -162,17 +179,9 @@ public class MonitorDashboardController extends BaseController {
     private void showPanel(VBox panel, Button activeBtn) {
         List<VBox> allPanels = List.of(dashboardPanel, myFarmersPanel, createFarmerPanel,
                 editFarmerPanel, createProjectPanel, fieldUpdatesPanel, notificationsPanel, settingsPanel);
-        for (VBox p : allPanels) {
-            p.setVisible(false);
-        }
         List<Button> navBtns = List.of(navDashboard, navFarmers, navCreateFarmer, navCreateProject,
                 navFieldUpdates, navNotifications, navSettings);
-        for (Button b : navBtns) {
-            b.getStyleClass().remove("nav-btn-active");
-        }
-        panel.setVisible(true);
-        activeBtn.getStyleClass().add("nav-btn-active");
-        refreshPanel(panel);
+        showPanelWithLifecycle(panel, allPanels, activeBtn, navBtns);
     }
 
     @FXML private void showDashboard() { showPanel(dashboardPanel, navDashboard); }
@@ -195,7 +204,8 @@ public class MonitorDashboardController extends BaseController {
     @FXML private void showNotifications() { showPanel(notificationsPanel, navNotifications); }
     @FXML private void showSettings() { showPanel(settingsPanel, navSettings); }
 
-    private void refreshPanel(VBox panel) {
+    @Override
+    protected void refreshPanel(VBox panel) {
         if (panel == dashboardPanel) refreshDashboard();
         else if (panel == myFarmersPanel) refreshFarmers();
         else if (panel == createProjectPanel) { refreshProjects(); refreshFarmerCombos(); }

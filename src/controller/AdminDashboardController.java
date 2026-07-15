@@ -167,6 +167,38 @@ public class AdminDashboardController extends BaseController {
         showDashboard();
     }
 
+    // ===== ABSTRACT IMPLEMENTATIONS =====
+
+    @Override
+    public String getDashboardTitle() {
+        return "Admin Dashboard";
+    }
+
+    @Override
+    protected void setupTableColumns() {
+        setupMonitorStatusColumn();
+        setupMonitorActionColumn();
+        setupFarmerActionColumn();
+        setupFarmersStatusColumn();
+        setupProjectsRiskColumn();
+        setupProjectsStatusColumn();
+        setupPendingFarmerActionColumn();
+        setupPendingProjectActionColumn();
+        setupInvestmentProjectColumn();
+        setupInvestmentStatusColumn();
+        setupFieldUpdatesProjectColumn();
+        setupFieldUpdatesMonitorColumn();
+        setupFieldUpdatesActionColumn();
+        setupLossProjectColumn();
+        setupLossMonitorColumn();
+        setupLossActionColumn();
+    }
+
+    @Override
+    protected void refreshAllData() {
+        refreshDashboard();
+    }
+
     // ===== NAVIGATION =====
     private void showPanel(VBox panel, Button activeBtn) {
         for (VBox p : List.of(dashboardPanel, usersPanel, monitorsPanel, investorsPanel, farmersPanel,
@@ -194,7 +226,8 @@ public class AdminDashboardController extends BaseController {
     @FXML private void showReports() { showPanel(reportsPanel, navReports); }
     @FXML private void showSettings() { showPanel(settingsPanel, navSettings); }
 
-    private void refreshPanel(VBox panel) {
+    @Override
+    protected void refreshPanel(VBox panel) {
         if (panel == dashboardPanel) refreshDashboard();
         else if (panel == usersPanel) refreshUsers();
         else if (panel == monitorsPanel) refreshMonitors();

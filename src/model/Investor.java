@@ -19,6 +19,11 @@ public class Investor extends User {
         this.walletBalance = walletBalance;
     }
 
+    @Override
+    public String getRoleDisplayName() {
+        return "Investor Panel";
+    }
+
     public double getWalletBalance() { return walletBalance; }
     public void setWalletBalance(double walletBalance) { this.walletBalance = walletBalance; }
 

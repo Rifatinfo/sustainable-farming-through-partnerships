@@ -6,6 +6,11 @@ public class Admin extends User {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public String getRoleDisplayName() {
+        return "Admin Panel";
+    }
+
     public Admin() {
         super();
         setRole(UserRole.ADMIN);
